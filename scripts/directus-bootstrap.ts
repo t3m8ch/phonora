@@ -122,30 +122,585 @@ const localizedFieldDefinitions = (
   ];
 };
 
+const collectionTranslations = (
+  en: { translation: string; singular: string; plural: string },
+  ru: { translation: string; singular: string; plural: string },
+) => [
+  { language: "en-US", ...en },
+  { language: "ru-RU", ...ru },
+];
+
+const bilingualNote = (en: string, ru: string) => `${en} / ${ru}`;
+
+const fieldLabelBases: Record<string, { en: string; ru: string }> = {
+  status: { en: "Publication status", ru: "Статус публикации" },
+  visibility: { en: "Public visibility", ru: "Видимость на сайте" },
+  modules: { en: "Modules", ru: "Модули" },
+  course: { en: "Landing page", ru: "Лендинг" },
+  slug: { en: "URL slug", ru: "URL-слаг" },
+  title: { en: "Title", ru: "Название" },
+  summary: { en: "Summary", ru: "Краткое описание" },
+  hero_headline: { en: "Main headline", ru: "Главный заголовок" },
+  hero_subheadline: { en: "Supporting text", ru: "Подзаголовок" },
+  theme_label: { en: "Badge text", ru: "Текст бейджа" },
+  lesson_blocks: { en: "Lessons", ru: "Уроки" },
+  description: { en: "Description", ru: "Описание" },
+  lesson_type: { en: "Lesson kind", ru: "Вид урока" },
+  order: { en: "Display order", ru: "Порядок показа" },
+  estimated_minutes: { en: "Estimated time (min)", ru: "Примерное время (мин)" },
+  phonetic_symbol: { en: "Phonetic symbol", ru: "Фонетический символ" },
+  sound_combination: { en: "Sound combination", ru: "Сочетание звуков" },
+  reading_rule: { en: "Reading rule", ru: "Правило чтения" },
+  exercise: { en: "Exercise", ru: "Упражнение" },
+  transcript: { en: "Transcript", ru: "Транскрипт" },
+  phonetic_focus: { en: "Phonetic focus", ru: "Фонетический фокус" },
+  license_note: { en: "Source note", ru: "Примечание об источнике" },
+  file: { en: "Audio file", ru: "Аудиофайл" },
+  word: { en: "Word", ru: "Слово" },
+  transcription: { en: "Transcription", ru: "Транскрипция" },
+  translation: { en: "Meaning", ru: "Перевод" },
+  note: { en: "Learner note", ru: "Примечание" },
+  primary_audio: { en: "Audio", ru: "Аудио" },
+  symbol: { en: "Symbol", ru: "Символ" },
+  sound_type: { en: "Sound label", ru: "Подпись звука" },
+  explanation: { en: "Explanation", ru: "Объяснение" },
+  stress_note: { en: "Stress note", ru: "Примечание об ударении" },
+  common_mistakes: { en: "Common mistakes", ru: "Типичные ошибки" },
+  comparison_note: { en: "Compare with", ru: "Сравнить с" },
+  examples: { en: "Example words", ru: "Примеры слов" },
+  phonetic_symbols_id: { en: "Phonetic symbol", ru: "Фонетический символ" },
+  example_words_id: { en: "Example word", ru: "Пример слова" },
+  combination_text: { en: "Combination", ru: "Сочетание" },
+  sound_combinations_id: { en: "Sound combination", ru: "Сочетание звуков" },
+  rule_statement: { en: "Rule", ru: "Правило" },
+  exceptions: { en: "Exceptions", ru: "Исключения" },
+  limitations: { en: "Limits", ru: "Ограничения" },
+  practice_intro: { en: "Intro before practice", ru: "Подводка к практике" },
+  reinforcement_exercises: { en: "Practice exercises", ru: "Упражнения для закрепления" },
+  reading_rules_id: { en: "Reading rule", ru: "Правило чтения" },
+  exercises_id: { en: "Exercise", ru: "Упражнение" },
+  show_item_feedback: { en: "Feedback after each question", ru: "Обратная связь после каждого вопроса" },
+  passing_score: { en: "Passing score (%)", ru: "Проходной балл (%)" },
+  items: { en: "Questions", ru: "Вопросы" },
+  type: { en: "Question type", ru: "Тип вопроса" },
+  prompt: { en: "Question text", ru: "Текст вопроса" },
+  prompt_note: { en: "Hint", ru: "Подсказка" },
+  prompt_symbol: { en: "Symbol in question", ru: "Символ в вопросе" },
+  prompt_word: { en: "Word in question", ru: "Слово в вопросе" },
+  prompt_transcription: { en: "Transcription in question", ru: "Транскрипция в вопросе" },
+  prompt_audio: { en: "Question audio", ru: "Аудио вопроса" },
+  linked_example_word: { en: "Linked example word", ru: "Связанный пример слова" },
+  options: { en: "Answer options", ru: "Варианты ответов" },
+  correct_option_ids: { en: "Correct answers", ru: "Правильные ответы" },
+};
+
+const fieldLabelOverrides: Record<string, { en: string; ru: string }> = {
+  "courses.modules": { en: "Modules on page", ru: "Модули на странице" },
+  "modules.course": { en: "Landing page", ru: "Лендинг" },
+  "lesson_blocks.module": { en: "Module", ru: "Модуль" },
+  "reading_rules.reinforcement_exercises": {
+    en: "Practice exercises",
+    ru: "Упражнения для закрепления",
+  },
+  "exercise_items.exercise": { en: "Parent exercise", ru: "Родительское упражнение" },
+};
+
+const fieldNoteBases: Record<string, { en: string; ru: string }> = {
+  status: {
+    en: "Choose whether this record is draft or published.",
+    ru: "Выберите, будет запись черновиком или опубликованной.",
+  },
+  visibility: {
+    en: "Show or hide this lesson on the public site.",
+    ru: "Показывать или скрывать этот урок на сайте.",
+  },
+  modules: {
+    en: "Modules shown on the landing page.",
+    ru: "Модули, которые показываются на лендинге.",
+  },
+  course: {
+    en: "Attach this module to the single landing page record.",
+    ru: "Привяжите модуль к единственной записи лендинга.",
+  },
+  slug: {
+    en: "Used in the public URL. Use lowercase Latin letters and hyphens.",
+    ru: "Используется в публичном URL. Используйте строчные латинские буквы и дефисы.",
+  },
+  title: {
+    en: "Short title shown to learners.",
+    ru: "Короткое название, которое видят ученики.",
+  },
+  summary: {
+    en: "Short supporting text shown in cards and lists.",
+    ru: "Короткий текст для карточек и списков.",
+  },
+  hero_headline: {
+    en: "Main headline on the landing page.",
+    ru: "Главный заголовок на лендинге.",
+  },
+  hero_subheadline: {
+    en: "Supporting text under the main headline.",
+    ru: "Текст под главным заголовком.",
+  },
+  theme_label: {
+    en: "Small badge text shown on the module card.",
+    ru: "Небольшая подпись на карточке модуля.",
+  },
+  lesson_blocks: {
+    en: "Lessons inside this module.",
+    ru: "Уроки внутри этого модуля.",
+  },
+  description: {
+    en: "Short description shown in lesson lists.",
+    ru: "Короткое описание в списках уроков.",
+  },
+  lesson_type: {
+    en: "Choose what kind of lesson this block opens.",
+    ru: "Выберите, какой тип урока открывает этот блок.",
+  },
+  order: {
+    en: "Smaller numbers appear first.",
+    ru: "Чем меньше число, тем выше элемент.",
+  },
+  estimated_minutes: {
+    en: "Optional time estimate shown to learners.",
+    ru: "Необязательная оценка времени для ученика.",
+  },
+  phonetic_symbol: {
+    en: "Choose the phonetic symbol lesson used by this block.",
+    ru: "Выберите урок с фонетическим символом для этого блока.",
+  },
+  sound_combination: {
+    en: "Choose the sound combination lesson used by this block.",
+    ru: "Выберите урок о сочетании звуков для этого блока.",
+  },
+  reading_rule: {
+    en: "Choose the reading rule lesson used by this block.",
+    ru: "Выберите урок о правиле чтения для этого блока.",
+  },
+  exercise: {
+    en: "Choose the exercise used here.",
+    ru: "Выберите упражнение, которое используется здесь.",
+  },
+  transcript: {
+    en: "Optional short transcript, for example /ɪ/.",
+    ru: "Необязательная краткая запись, например /ɪ/.",
+  },
+  phonetic_focus: {
+    en: "Optional internal note about the sound this audio highlights.",
+    ru: "Необязательная внутренняя пометка о том, какой звук показывает это аудио.",
+  },
+  license_note: {
+    en: "Store source or attribution details here.",
+    ru: "Укажите здесь источник или атрибуцию.",
+  },
+  file: {
+    en: "Upload or replace the audio file used on the site.",
+    ru: "Загрузите или замените аудиофайл, который используется на сайте.",
+  },
+  word: {
+    en: "Base word shown to learners.",
+    ru: "Слово, которое видит ученик.",
+  },
+  transcription: {
+    en: "IPA transcription shown with the word.",
+    ru: "Транскрипция IPA, которая показывается рядом со словом.",
+  },
+  translation: {
+    en: "Meaning of the word for learners.",
+    ru: "Перевод слова для учеников.",
+  },
+  note: {
+    en: "Extra learner-facing note.",
+    ru: "Дополнительное примечание для ученика.",
+  },
+  primary_audio: {
+    en: "Main pronunciation audio for this item.",
+    ru: "Основное аудио произношения для этого элемента.",
+  },
+  symbol: {
+    en: "IPA symbol shown on the card.",
+    ru: "Символ IPA на карточке.",
+  },
+  sound_type: {
+    en: "Short label such as vowel, consonant, or diphthong.",
+    ru: "Короткая подпись, например гласный, согласный или дифтонг.",
+  },
+  explanation: {
+    en: "Main explanation shown to learners.",
+    ru: "Основное объяснение для ученика.",
+  },
+  stress_note: {
+    en: "Extra note about stress or emphasis.",
+    ru: "Дополнительная пометка про ударение.",
+  },
+  common_mistakes: {
+    en: "Typical mistakes to watch out for.",
+    ru: "Типичные ошибки, на которые стоит обратить внимание.",
+  },
+  comparison_note: {
+    en: "Optional comparison with nearby sounds or patterns.",
+    ru: "Необязательное сравнение с похожими звуками или паттернами.",
+  },
+  examples: {
+    en: "Reusable example words shown in this lesson or card.",
+    ru: "Переиспользуемые примеры слов для этого урока или карточки.",
+  },
+  combination_text: {
+    en: "Text of the sound combination or diphthong.",
+    ru: "Текст сочетания звуков или дифтонга.",
+  },
+  rule_statement: {
+    en: "Short statement of the reading rule.",
+    ru: "Краткая формулировка правила чтения.",
+  },
+  exceptions: {
+    en: "Words or cases that do not follow the rule.",
+    ru: "Слова или случаи, которые не подчиняются правилу.",
+  },
+  limitations: {
+    en: "Where the rule does or does not apply.",
+    ru: "Где правило работает, а где нет.",
+  },
+  practice_intro: {
+    en: "Intro text shown before practice tasks.",
+    ru: "Текст перед упражнениями.",
+  },
+  reinforcement_exercises: {
+    en: "Exercises shown under this reading rule.",
+    ru: "Упражнения, которые показываются под этим правилом.",
+  },
+  show_item_feedback: {
+    en: "Show right or wrong feedback after each submitted question.",
+    ru: "Показывать правильный или неправильный ответ после каждого вопроса.",
+  },
+  passing_score: {
+    en: "Optional passing threshold from 0 to 100.",
+    ru: "Необязательный проходной порог от 0 до 100.",
+  },
+  items: {
+    en: "Questions inside this exercise.",
+    ru: "Вопросы внутри этого упражнения.",
+  },
+  type: {
+    en: "Choose how this question works.",
+    ru: "Выберите, как работает этот вопрос.",
+  },
+  prompt: {
+    en: "Main text of the question.",
+    ru: "Основной текст вопроса.",
+  },
+  prompt_note: {
+    en: "Optional hint shown near the question.",
+    ru: "Необязательная подсказка рядом с вопросом.",
+  },
+  prompt_symbol: {
+    en: "Fill when the question uses a symbol prompt.",
+    ru: "Заполняйте, если вопрос строится вокруг символа.",
+  },
+  prompt_word: {
+    en: "Fill when the question uses a word prompt.",
+    ru: "Заполняйте, если вопрос строится вокруг слова.",
+  },
+  prompt_transcription: {
+    en: "Fill when the question uses a transcription prompt.",
+    ru: "Заполняйте, если вопрос строится вокруг транскрипции.",
+  },
+  prompt_audio: {
+    en: "Attach audio when the question starts from listening.",
+    ru: "Прикрепите аудио, если вопрос начинается с прослушивания.",
+  },
+  linked_example_word: {
+    en: "Optional example word connected to this question.",
+    ru: "Необязательный пример слова, связанный с этим вопросом.",
+  },
+  options: {
+    en: "JSON list of answer options. Use label_en and label_ru inside each option.",
+    ru: "JSON-список вариантов ответа. Используйте label_en и label_ru внутри каждого варианта.",
+  },
+  correct_option_ids: {
+    en: "IDs of the correct answer options.",
+    ru: "ID правильных вариантов ответа.",
+  },
+};
+
+const fieldNoteOverrides: Record<string, { en: string; ru: string }> = {
+  "exercise_items.exercise": {
+    en: "Choose which exercise this question belongs to.",
+    ru: "Выберите, к какому упражнению относится этот вопрос.",
+  },
+  "lesson_blocks.exercise": {
+    en: "Choose the exercise opened by this lesson block.",
+    ru: "Выберите упражнение, которое открывает этот блок урока.",
+  },
+};
+
+const getBaseFieldKey = (field: string) => field.replace(/_(en|ru)$/, "");
+
+const getFieldLabels = (collection: string, field: string) => {
+  const baseField = getBaseFieldKey(field);
+  return fieldLabelOverrides[`${collection}.${baseField}`] ?? fieldLabelBases[baseField] ?? null;
+};
+
+const getFieldNoteBase = (collection: string, field: string) => {
+  const baseField = getBaseFieldKey(field);
+  return fieldNoteOverrides[`${collection}.${baseField}`] ?? fieldNoteBases[baseField] ?? null;
+};
+
+const buildFieldTranslations = (collection: string, field: string) => {
+  const suffixMatch = field.match(/_(en|ru)$/);
+  const localeSuffix = suffixMatch ? suffixMatch[1].toUpperCase() : null;
+  const labels = getFieldLabels(collection, field);
+
+  if (!labels) {
+    return null;
+  }
+
+  return [
+    {
+      language: "en-US",
+      translation: localeSuffix ? `${labels.en} (${localeSuffix})` : labels.en,
+    },
+    {
+      language: "ru-RU",
+      translation: localeSuffix ? `${labels.ru} (${localeSuffix})` : labels.ru,
+    },
+  ];
+};
+
+const buildFieldNote = (collection: string, field: string, fallback?: unknown) => {
+  const suffixMatch = field.match(/_(en|ru)$/);
+  const locale = suffixMatch?.[1] ?? null;
+  const note = getFieldNoteBase(collection, field);
+
+  if (!note) {
+    return typeof fallback === "string" ? fallback : null;
+  }
+
+  if (locale === "en") {
+    return bilingualNote(`${note.en} Fill in English.`, `${note.ru} Заполните английскую версию.`);
+  }
+
+  if (locale === "ru") {
+    return bilingualNote(`${note.en} Fill in Russian.`, `${note.ru} Заполните русскую версию.`);
+  }
+
+  return bilingualNote(note.en, note.ru);
+};
+
 const collections: CollectionDefinition[] = [
-  { collection: "courses", meta: { icon: "school", note: "Singleton course configuration for the Phonora site.", singleton: true } },
-  { collection: "modules", meta: { icon: "view_list", note: "Ordered modules within a course." } },
-  { collection: "lesson_blocks", meta: { icon: "dashboard_customize", note: "Ordered public learning blocks inside a module." } },
-  { collection: "audio_assets", meta: { icon: "audio_file", note: "Reusable audio records that point to Directus files." } },
-  { collection: "example_words", meta: { icon: "format_quote", note: "Reusable example words and transcriptions." } },
-  { collection: "phonetic_symbols", meta: { icon: "record_voice_over", note: "Phonetic symbol study cards." } },
-  { collection: "phonetic_symbols_example_words", meta: { hidden: true, icon: "swap_horiz", note: "Junction: phonetic symbols ↔ example words." } },
-  { collection: "sound_combinations", meta: { icon: "merge_type", note: "Sound combination and diphthong study cards." } },
-  { collection: "sound_combinations_example_words", meta: { hidden: true, icon: "swap_horiz", note: "Junction: sound combinations ↔ example words." } },
-  { collection: "reading_rules", meta: { icon: "menu_book", note: "Reading rule lessons." } },
-  { collection: "reading_rules_example_words", meta: { hidden: true, icon: "swap_horiz", note: "Junction: reading rules ↔ example words." } },
-  { collection: "reading_rules_exercises", meta: { hidden: true, icon: "swap_horiz", note: "Junction: reading rules ↔ reinforcement exercises." } },
-  { collection: "exercises", meta: { icon: "quiz", note: "Exercise containers." } },
-  { collection: "exercise_items", meta: { icon: "checklist", note: "Question-level exercise items." } },
+  {
+    collection: "courses",
+    meta: {
+      icon: "web",
+      note: "Singleton landing page hero copy for the Phonora site.",
+      singleton: true,
+      translations: collectionTranslations(
+        { translation: "Landing Page", singular: "Landing Page", plural: "Landing Pages" },
+        { translation: "Лендинг", singular: "Лендинг", plural: "Лендинги" },
+      ),
+    },
+  },
+  {
+    collection: "modules",
+    meta: {
+      icon: "view_list",
+      note: "Ordered modules within a course.",
+      translations: collectionTranslations(
+        { translation: "Modules", singular: "Module", plural: "Modules" },
+        { translation: "Модули", singular: "Модуль", plural: "Модули" },
+      ),
+    },
+  },
+  {
+    collection: "lesson_blocks",
+    meta: {
+      icon: "dashboard_customize",
+      note: "Ordered public learning blocks inside a module.",
+      translations: collectionTranslations(
+        { translation: "Lesson Blocks", singular: "Lesson Block", plural: "Lesson Blocks" },
+        { translation: "Блоки уроков", singular: "Блок урока", plural: "Блоки уроков" },
+      ),
+    },
+  },
+  {
+    collection: "audio_assets",
+    meta: {
+      icon: "audio_file",
+      note: "Reusable audio records that point to Directus files.",
+      translations: collectionTranslations(
+        { translation: "Audio Assets", singular: "Audio Asset", plural: "Audio Assets" },
+        { translation: "Аудиоресурсы", singular: "Аудиоресурс", plural: "Аудиоресурсы" },
+      ),
+    },
+  },
+  {
+    collection: "example_words",
+    meta: {
+      icon: "format_quote",
+      note: "Reusable example words and transcriptions.",
+      translations: collectionTranslations(
+        { translation: "Example Words", singular: "Example Word", plural: "Example Words" },
+        { translation: "Примеры слов", singular: "Пример слова", plural: "Примеры слов" },
+      ),
+    },
+  },
+  {
+    collection: "phonetic_symbols",
+    meta: {
+      icon: "record_voice_over",
+      note: "Phonetic symbol study cards.",
+      translations: collectionTranslations(
+        {
+          translation: "Phonetic Symbols",
+          singular: "Phonetic Symbol",
+          plural: "Phonetic Symbols",
+        },
+        {
+          translation: "Фонетические символы",
+          singular: "Фонетический символ",
+          plural: "Фонетические символы",
+        },
+      ),
+    },
+  },
+  {
+    collection: "phonetic_symbols_example_words",
+    meta: {
+      hidden: true,
+      icon: "swap_horiz",
+      note: "Junction: phonetic symbols ↔ example words.",
+      translations: collectionTranslations(
+        {
+          translation: "Phonetic Symbols ↔ Example Words",
+          singular: "Phonetic Symbol ↔ Example Word",
+          plural: "Phonetic Symbols ↔ Example Words",
+        },
+        {
+          translation: "Фонетические символы ↔ примеры слов",
+          singular: "Фонетический символ ↔ пример слова",
+          plural: "Фонетические символы ↔ примеры слов",
+        },
+      ),
+    },
+  },
+  {
+    collection: "sound_combinations",
+    meta: {
+      icon: "merge_type",
+      note: "Sound combination and diphthong study cards.",
+      translations: collectionTranslations(
+        {
+          translation: "Sound Combinations",
+          singular: "Sound Combination",
+          plural: "Sound Combinations",
+        },
+        {
+          translation: "Сочетания звуков",
+          singular: "Сочетание звуков",
+          plural: "Сочетания звуков",
+        },
+      ),
+    },
+  },
+  {
+    collection: "sound_combinations_example_words",
+    meta: {
+      hidden: true,
+      icon: "swap_horiz",
+      note: "Junction: sound combinations ↔ example words.",
+      translations: collectionTranslations(
+        {
+          translation: "Sound Combinations ↔ Example Words",
+          singular: "Sound Combination ↔ Example Word",
+          plural: "Sound Combinations ↔ Example Words",
+        },
+        {
+          translation: "Сочетания звуков ↔ примеры слов",
+          singular: "Сочетание звуков ↔ пример слова",
+          plural: "Сочетания звуков ↔ примеры слов",
+        },
+      ),
+    },
+  },
+  {
+    collection: "reading_rules",
+    meta: {
+      icon: "menu_book",
+      note: "Reading rule lessons.",
+      translations: collectionTranslations(
+        { translation: "Reading Rules", singular: "Reading Rule", plural: "Reading Rules" },
+        { translation: "Правила чтения", singular: "Правило чтения", plural: "Правила чтения" },
+      ),
+    },
+  },
+  {
+    collection: "reading_rules_example_words",
+    meta: {
+      hidden: true,
+      icon: "swap_horiz",
+      note: "Junction: reading rules ↔ example words.",
+      translations: collectionTranslations(
+        {
+          translation: "Reading Rules ↔ Example Words",
+          singular: "Reading Rule ↔ Example Word",
+          plural: "Reading Rules ↔ Example Words",
+        },
+        {
+          translation: "Правила чтения ↔ примеры слов",
+          singular: "Правило чтения ↔ пример слова",
+          plural: "Правила чтения ↔ примеры слов",
+        },
+      ),
+    },
+  },
+  {
+    collection: "reading_rules_exercises",
+    meta: {
+      hidden: true,
+      icon: "swap_horiz",
+      note: "Junction: reading rules ↔ reinforcement exercises.",
+      translations: collectionTranslations(
+        {
+          translation: "Reading Rules ↔ Exercises",
+          singular: "Reading Rule ↔ Exercise",
+          plural: "Reading Rules ↔ Exercises",
+        },
+        {
+          translation: "Правила чтения ↔ упражнения",
+          singular: "Правило чтения ↔ упражнение",
+          plural: "Правила чтения ↔ упражнения",
+        },
+      ),
+    },
+  },
+  {
+    collection: "exercises",
+    meta: {
+      icon: "quiz",
+      note: "Exercise containers.",
+      translations: collectionTranslations(
+        { translation: "Exercises", singular: "Exercise", plural: "Exercises" },
+        { translation: "Упражнения", singular: "Упражнение", plural: "Упражнения" },
+      ),
+    },
+  },
+  {
+    collection: "exercise_items",
+    meta: {
+      icon: "checklist",
+      note: "Question-level exercise items.",
+      translations: collectionTranslations(
+        { translation: "Exercise Items", singular: "Exercise Item", plural: "Exercise Items" },
+        { translation: "Элементы упражнений", singular: "Элемент упражнения", plural: "Элементы упражнений" },
+      ),
+    },
+  },
 ];
 
 const fields: Record<string, FieldDefinition[]> = {
   courses: [
     { field: "status", type: "string", meta: { interface: "select-dropdown", options: { choices: statusChoices }, width: "half" }, schema: { data_type: "varchar", max_length: 20, default_value: "draft", is_nullable: false } },
-    { field: "slug", type: "string", meta: { interface: "input", width: "half" }, schema: { data_type: "varchar", max_length: 255, is_unique: true, is_nullable: false } },
-    ...localizedFieldDefinitions("title", { interface: "input", note: "Localized course title" }),
-    ...localizedFieldDefinitions("summary", { interface: "input-multiline", note: "Localized course summary", width: "full" }),
-    ...localizedFieldDefinitions("description", { interface: "input-rich-text-html", note: "Localized course description", width: "full" }),
     ...localizedFieldDefinitions("hero_headline", { interface: "input", note: "Localized hero headline", width: "full" }),
     ...localizedFieldDefinitions("hero_subheadline", { interface: "input-multiline", note: "Localized hero subheadline", width: "full" }),
     { field: "modules", type: "alias", meta: { special: ["o2m"], interface: "list-o2m" } },
@@ -358,13 +913,15 @@ const baseFieldMeta = (collection: string, field: string, meta?: Record<string, 
   required: false,
   sort: null,
   special: null,
-  translations: null,
+  translations: buildFieldTranslations(collection, field),
   width: "full",
-  note: null,
+  note: buildFieldNote(collection, field, meta?.note),
   conditions: null,
   validation: null,
   validation_message: null,
   ...meta,
+  translations: buildFieldTranslations(collection, field),
+  note: buildFieldNote(collection, field, meta?.note),
 });
 
 const idField = (collection: string): SnapshotField => ({
@@ -603,6 +1160,49 @@ async function ensurePermission(
   });
 }
 
+async function ensureCollectionMeta(
+  token: string,
+  collection: string,
+  meta: Record<string, unknown>,
+) {
+  const { translations, ...rest } = meta;
+
+  if (Object.keys(rest).length > 0) {
+    await directusRequest(token, `/collections/${collection}`, {
+      method: "PATCH",
+      body: JSON.stringify({ meta: rest }),
+    });
+  }
+
+  if (translations) {
+    await directusRequest(token, `/collections/${collection}`, {
+      method: "PATCH",
+      body: JSON.stringify({ meta: { translations } }),
+    });
+  }
+}
+
+async function ensureFieldPresentation(
+  token: string,
+  collection: string,
+  field: string,
+  presentation: { note: string | null; translations: Array<Record<string, unknown>> | null },
+) {
+  if (presentation.note !== null) {
+    await directusRequest(token, `/fields/${collection}/${field}`, {
+      method: "PATCH",
+      body: JSON.stringify({ meta: { note: presentation.note } }),
+    });
+  }
+
+  if (presentation.translations) {
+    await directusRequest(token, `/fields/${collection}/${field}`, {
+      method: "PATCH",
+      body: JSON.stringify({ meta: { translations: presentation.translations } }),
+    });
+  }
+}
+
 async function ensureSingletonCourse(token: string) {
   try {
     const existing = await directusRequest<{ data: { id?: string } }>(
@@ -617,18 +1217,10 @@ async function ensureSingletonCourse(token: string) {
     // No singleton record exists yet.
   }
 
-  const defaultSlug = process.env.PHONORA_SINGLETON_COURSE_SLUG ?? "phonora";
   const response = await directusRequest<{ data: { id?: string } }>(token, "/items/courses", {
     method: "PATCH",
     body: JSON.stringify({
       status: "published",
-      slug: defaultSlug,
-      title_en: "Phonora",
-      title_ru: "Phonora",
-      summary_en: "The main Phonora course shell.",
-      summary_ru: "Основная оболочка курса Phonora.",
-      description_en: "Use Directus to add modules, lessons, and exercises.",
-      description_ru: "Используйте Directus, чтобы добавить модули, уроки и упражнения.",
       hero_headline_en: "Build your Phonora course in Directus.",
       hero_headline_ru: "Соберите курс Phonora в Directus.",
       hero_subheadline_en: "Edit the singleton course, then add modules and lessons.",
@@ -668,6 +1260,19 @@ async function main() {
   );
   if (result.exitCode !== 0) {
     throw new Error(`directus schema apply failed with exit code ${result.exitCode}`);
+  }
+
+  for (const definition of collections) {
+    await ensureCollectionMeta(token, definition.collection, definition.meta);
+  }
+
+  for (const [collection, definitions] of Object.entries(fields)) {
+    for (const definition of definitions) {
+      await ensureFieldPresentation(token, collection, definition.field, {
+        note: buildFieldNote(collection, definition.field, definition.meta?.note),
+        translations: buildFieldTranslations(collection, definition.field),
+      });
+    }
   }
 
   const roleIds = new Map<string, string>();

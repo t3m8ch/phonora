@@ -149,10 +149,6 @@ async function main() {
   console.log("Seeding course");
   const coursePayload = {
     status: "published",
-    slug: seedData.course.slug,
-    ...localizedTextFields("title", seedData.course.title),
-    ...localizedTextFields("summary", seedData.course.summary),
-    ...localizedTextFields("description", seedData.course.description),
     ...localizedTextFields("hero_headline", seedData.course.hero_headline),
     ...localizedTextFields("hero_subheadline", seedData.course.hero_subheadline),
   };

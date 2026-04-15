@@ -21,14 +21,7 @@ const localizedFields = (...fieldNames: string[]) =>
 const courseFields = [
   "id",
   "status",
-  "slug",
-  ...localizedFields(
-    "title",
-    "summary",
-    "description",
-    "hero_headline",
-    "hero_subheadline",
-  ),
+  ...localizedFields("hero_headline", "hero_subheadline"),
   "modules.id",
   "modules.status",
   "modules.slug",

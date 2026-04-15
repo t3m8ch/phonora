@@ -8,7 +8,7 @@ The system SHALL provide a public course entry experience that presents the Phon
 
 #### Scenario: Learner opens the course landing page
 - **WHEN** a learner visits the public Phonora course entry page
-- **THEN** the system displays the course title, course description, and links to published modules or sections
+- **THEN** the system displays the course hero headline, hero subheadline, and links to published modules or sections
 
 ### Requirement: Modules and lesson blocks shall follow editor-defined order
 The system SHALL render modules and lesson blocks in the order configured by admins so learners can follow the intended progression from symbols to combinations to reading rules and exercises.

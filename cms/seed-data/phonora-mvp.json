@@ -1,15 +1,5 @@
 {
   "course": {
-    "slug": "phonora-mvp",
-    "title": { "en": "Phonora", "ru": "Phonora" },
-    "summary": {
-      "en": "A guided path from phonetic symbols to reading rules.",
-      "ru": "Пошаговый путь от фонетических символов к правилам чтения."
-    },
-    "description": {
-      "en": "Phonora helps learners recognise phonetic symbols, hear sound contrasts, and connect transcription with reading rules.",
-      "ru": "Phonora помогает распознавать фонетические символы, слышать различия между звуками и связывать транскрипцию с правилами чтения."
-    },
     "hero_headline": {
       "en": "Learn to read English pronunciation without guessing.",
       "ru": "Научитесь читать английское произношение без догадок."

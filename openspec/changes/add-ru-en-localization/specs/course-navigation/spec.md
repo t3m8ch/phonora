@@ -5,7 +5,7 @@ The system SHALL provide a public course entry experience that presents the Phon
 
 #### Scenario: Learner opens the course landing page in Russian
 - **WHEN** a learner visits the public Phonora course entry page in the Russian locale
-- **THEN** the system displays the localized course title, course description, and links to published modules or sections in Russian
+- **THEN** the system displays the localized course hero headline, hero subheadline, and links to published modules or sections in Russian
 
 #### Scenario: Learner opens the course landing page with a missing translation
 - **WHEN** a learner visits the public Phonora course entry page in a locale where some course copy is not translated

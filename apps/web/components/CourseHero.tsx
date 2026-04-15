@@ -14,8 +14,8 @@ export function CourseHero({
     <section className="hero card">
       <div className="stack-lg">
         <p className="eyebrow">{dictionary.courseHero.eyebrow}</p>
-        <h1>{course.heroHeadline ?? course.title}</h1>
-        <p className="lead">{course.heroSubheadline ?? course.summary ?? course.description}</p>
+        <h1>{course.heroHeadline ?? dictionary.metadata.title}</h1>
+        <p className="lead">{course.heroSubheadline ?? dictionary.metadata.description}</p>
       </div>
       <div className="heroStats">
         <div>

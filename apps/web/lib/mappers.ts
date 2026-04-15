@@ -124,12 +124,6 @@ export const mapCourseOverview = (
   locale: Locale,
 ): CourseOverview => ({
   id: record.id,
-  slug: record.slug,
-  title: pickLocalizedText(record as unknown as Record<string, unknown>, "title", locale) ?? "",
-  summary:
-    pickLocalizedText(record as unknown as Record<string, unknown>, "summary", locale) ?? null,
-  description:
-    pickLocalizedText(record as unknown as Record<string, unknown>, "description", locale) ?? null,
   heroHeadline:
     pickLocalizedText(record as unknown as Record<string, unknown>, "hero_headline", locale) ??
     null,

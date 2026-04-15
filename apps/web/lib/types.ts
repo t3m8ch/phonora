@@ -159,11 +159,8 @@ export type ModuleRecord = {
 export type CourseRecord = {
   id: string;
   status: PublicationStatus;
-  slug: string;
   modules?: ModuleRecord[];
-} & LocalizedTextField<
-  "title" | "summary" | "description" | "hero_headline" | "hero_subheadline"
->;
+} & LocalizedTextField<"hero_headline" | "hero_subheadline">;
 
 export type AudioAsset = {
   id: string;
@@ -205,10 +202,6 @@ export type ModuleSummary = {
 
 export type CourseOverview = {
   id: string;
-  slug: string;
-  title: string;
-  summary?: string | null;
-  description?: string | null;
   heroHeadline?: string | null;
   heroSubheadline?: string | null;
   modules: ModuleSummary[];

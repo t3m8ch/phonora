@@ -4,7 +4,7 @@
 
 1. Open Directus Studio.
 2. In your Directus user profile, choose the admin UI language you want to work in (`English` or `Русский`) when available.
-3. Open the singleton **course** record that `cms:setup` creates automatically and edit its bilingual site/course copy.
+3. Open the singleton **Landing Page** (`courses`) record that `cms:setup` creates automatically and edit its bilingual hero headline/subheadline.
 4. Create or update reusable **audio_assets** first.
 5. Create reusable **example_words** and attach audio where needed.
 6. Create the lesson content entity:
@@ -18,7 +18,7 @@
 
 ## Collection overview
 
-- `courses` — public course shell and hero copy with bilingual course text
+- `courses` — singleton landing-page hero copy (`hero_headline_*`, `hero_subheadline_*`), labeled as **Landing Page** in Directus Studio
 - `modules` — ordered learning sections with bilingual titles and summaries
 - `lesson_blocks` — ordered public lesson entries inside modules with bilingual learner-facing labels
 - `audio_assets` — reusable audio metadata linked to Directus files; title/description can be bilingual
@@ -81,5 +81,6 @@ Supported `exercise_items.type` values:
 ## Admin workspace language notes
 
 - Directus Studio shell language depends on the Directus user/profile setting and platform support.
-- Project-specific field notes are written so editors can understand the bilingual workflow in either admin language.
+- Project-specific collection labels and field labels are localized for English and Russian in Directus Studio.
+- Project-specific field notes are written in a short bilingual `EN / RU` style so editors can understand them in either admin language.
 - When testing editor workflows, verify that both English and Russian-speaking editors can identify where to enter learner-facing copy.

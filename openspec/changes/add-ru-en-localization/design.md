@@ -39,7 +39,7 @@ Stakeholders:
   - **Localized slugs per language:** better native URLs, but significantly more CMS complexity and route-mapping overhead.
 
 ### 2. Keep one content record per entity and add explicit `*_en` / `*_ru` fields for localizable text
-- **Decision:** Extend existing Directus collections with paired locale fields for public text, for example `title_en` / `title_ru`, `summary_en` / `summary_ru`, `description_en` / `description_ru`, and similar pairs for lesson, rule, and exercise copy.
+- **Decision:** Extend existing Directus collections with paired locale fields for public text. For the singleton `courses` record, keep only `hero_headline_en` / `hero_headline_ru` and `hero_subheadline_en` / `hero_subheadline_ru`; use `title_*`, `summary_*`, `description_*`, and similar pairs only where that copy is actually rendered (such as modules, lessons, rules, and exercises).
 - **Rationale:** The project only needs two locales now, and explicit fields are easier to bootstrap, validate, query, seed, and expose in TypeScript than introducing a full translation table architecture. This also keeps authoring on a single record.
 - **Alternatives considered:**
   - **Separate translation collections:** more scalable for many locales, but much more complex for this project stage.
