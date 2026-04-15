@@ -1,3 +1,5 @@
+import type { Locale } from "@/lib/i18n";
+
 export type PublicationStatus = "draft" | "published" | "archived";
 export type VisibilityState = "visible" | "hidden";
 
@@ -23,26 +25,26 @@ export type DirectusFileRecord = {
   type?: string | null;
 };
 
+type LocalizedTextField<Key extends string> = {
+  [K in `${Key}_en` | `${Key}_ru`]?: string | null;
+};
+
 export type AudioAssetRecord = {
   id: string;
   status: PublicationStatus;
-  title: string;
-  description?: string | null;
   transcript?: string | null;
   phonetic_focus?: string | null;
   license_note?: string | null;
   file?: DirectusFileRecord | null;
-};
+} & LocalizedTextField<"title" | "description">;
 
 export type ExampleWordRecord = {
   id: string;
   status: PublicationStatus;
   word: string;
   transcription?: string | null;
-  translation?: string | null;
-  note?: string | null;
   primary_audio?: AudioAssetRecord | null;
-};
+} & LocalizedTextField<"translation" | "note">;
 
 export type JunctionRecord<T> = {
   id: string;
@@ -55,47 +57,51 @@ export type PhoneticSymbolRecord = {
   status: PublicationStatus;
   slug: string;
   symbol: string;
-  title: string;
-  sound_type?: string | null;
-  explanation: string;
-  stress_note?: string | null;
-  common_mistakes?: string | null;
-  comparison_note?: string | null;
   primary_audio?: AudioAssetRecord | null;
   examples?: Array<JunctionRecord<ExampleWordRecord>>;
-};
+} & LocalizedTextField<
+  | "title"
+  | "sound_type"
+  | "explanation"
+  | "stress_note"
+  | "common_mistakes"
+  | "comparison_note"
+>;
 
 export type SoundCombinationRecord = {
   id: string;
   status: PublicationStatus;
   slug: string;
   combination_text: string;
-  title: string;
-  explanation: string;
-  comparison_note?: string | null;
-  stress_note?: string | null;
-  common_mistakes?: string | null;
   primary_audio?: AudioAssetRecord | null;
   examples?: Array<JunctionRecord<ExampleWordRecord>>;
-};
+} & LocalizedTextField<
+  | "title"
+  | "explanation"
+  | "stress_note"
+  | "common_mistakes"
+  | "comparison_note"
+>;
 
 export type ReadingRuleRecord = {
   id: string;
   status: PublicationStatus;
   slug: string;
-  title: string;
-  rule_statement: string;
-  explanation: string;
-  exceptions?: string | null;
-  limitations?: string | null;
-  practice_intro?: string | null;
   examples?: Array<JunctionRecord<ExampleWordRecord>>;
   reinforcement_exercises?: Array<JunctionRecord<ExerciseRecord>>;
-};
+} & LocalizedTextField<
+  | "title"
+  | "rule_statement"
+  | "explanation"
+  | "exceptions"
+  | "limitations"
+  | "practice_intro"
+>;
 
 export type ExerciseOptionRecord = {
   id: string;
-  label: string;
+  label_en?: string | null;
+  label_ru?: string | null;
   value?: string | null;
   word?: string | null;
   transcription?: string | null;
@@ -108,8 +114,6 @@ export type ExerciseItemRecord = {
   exercise: string;
   sort: number;
   type: ExerciseItemType;
-  prompt: string;
-  prompt_note?: string | null;
   prompt_symbol?: string | null;
   prompt_word?: string | null;
   prompt_transcription?: string | null;
@@ -117,28 +121,22 @@ export type ExerciseItemRecord = {
   linked_example_word?: ExampleWordRecord | null;
   options: ExerciseOptionRecord[];
   correct_option_ids: string[];
-  explanation?: string | null;
-};
+} & LocalizedTextField<"prompt" | "prompt_note" | "explanation">;
 
 export type ExerciseRecord = {
   id: string;
   status: PublicationStatus;
   slug: string;
-  title: string;
-  summary?: string | null;
-  instructions: string;
   show_item_feedback: boolean;
   passing_score?: number | null;
   items?: ExerciseItemRecord[];
-};
+} & LocalizedTextField<"title" | "summary" | "instructions">;
 
 export type LessonBlockRecord = {
   id: string;
   status: PublicationStatus;
   visibility: VisibilityState;
   slug: string;
-  title: string;
-  description?: string | null;
   lesson_type: LessonType;
   order: number;
   estimated_minutes?: number | null;
@@ -147,31 +145,25 @@ export type LessonBlockRecord = {
   sound_combination?: SoundCombinationRecord | null;
   reading_rule?: ReadingRuleRecord | null;
   exercise?: ExerciseRecord | null;
-};
+} & LocalizedTextField<"title" | "description">;
 
 export type ModuleRecord = {
   id: string;
   status: PublicationStatus;
   slug: string;
-  title: string;
-  summary?: string | null;
-  theme_label?: string | null;
   order: number;
   course?: CourseRecord | null;
   lesson_blocks?: LessonBlockRecord[];
-};
+} & LocalizedTextField<"title" | "summary" | "theme_label">;
 
 export type CourseRecord = {
   id: string;
   status: PublicationStatus;
   slug: string;
-  title: string;
-  summary?: string | null;
-  description?: string | null;
-  hero_headline?: string | null;
-  hero_subheadline?: string | null;
   modules?: ModuleRecord[];
-};
+} & LocalizedTextField<
+  "title" | "summary" | "description" | "hero_headline" | "hero_subheadline"
+>;
 
 export type AudioAsset = {
   id: string;
@@ -289,10 +281,7 @@ export type ExerciseView = {
   items: ExerciseItemView[];
 };
 
-export type LessonContentView =
-  | StudyCardView
-  | ReadingRuleView
-  | ExerciseView;
+export type LessonContentView = StudyCardView | ReadingRuleView | ExerciseView;
 
 export type LessonDetail = {
   id: string;
@@ -305,4 +294,8 @@ export type LessonDetail = {
   previousLesson?: LessonSummary | null;
   nextLesson?: LessonSummary | null;
   content: LessonContentView | null;
+};
+
+export type LocalizedRouteParams = {
+  locale: Locale;
 };

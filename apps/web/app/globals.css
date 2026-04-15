@@ -74,10 +74,43 @@ a.button {
   color: var(--text-muted);
 }
 
+.siteHeaderActions {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
 .siteNav {
   display: inline-flex;
   gap: 16px;
   color: var(--text-muted);
+}
+
+.languageSwitcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px;
+  border-radius: 999px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+
+.langButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  padding: 0 14px;
+  border-radius: 999px;
+  color: var(--text-muted);
+}
+
+.langButton.active {
+  background: var(--surface-muted);
+  color: var(--accent-strong);
+  font-weight: 700;
 }
 
 .pageContainer {
@@ -351,6 +384,12 @@ h3 {
   .pageContainer {
     padding-left: 16px;
     padding-right: 16px;
+  }
+
+  .siteHeader,
+  .siteHeaderActions {
+    align-items: flex-start;
+    flex-direction: column;
   }
 
   .card {

@@ -1,107 +1,158 @@
 {
   "course": {
     "slug": "phonora-mvp",
-    "title": "Phonora",
-    "summary": "A guided path from phonetic symbols to reading rules.",
-    "description": "Phonora helps learners recognise phonetic symbols, hear sound contrasts, and connect transcription with reading rules.",
-    "hero_headline": "Learn to read English pronunciation without guessing.",
-    "hero_subheadline": "Move from symbols to combinations to reading rules with audio, examples, and focused exercises."
+    "title": { "en": "Phonora", "ru": "Phonora" },
+    "summary": {
+      "en": "A guided path from phonetic symbols to reading rules.",
+      "ru": "Пошаговый путь от фонетических символов к правилам чтения."
+    },
+    "description": {
+      "en": "Phonora helps learners recognise phonetic symbols, hear sound contrasts, and connect transcription with reading rules.",
+      "ru": "Phonora помогает распознавать фонетические символы, слышать различия между звуками и связывать транскрипцию с правилами чтения."
+    },
+    "hero_headline": {
+      "en": "Learn to read English pronunciation without guessing.",
+      "ru": "Научитесь читать английское произношение без догадок."
+    },
+    "hero_subheadline": {
+      "en": "Move from symbols to combinations to reading rules with audio, examples, and focused exercises.",
+      "ru": "Переходите от символов к сочетаниям и правилам чтения с аудио, примерами и целевыми упражнениями."
+    }
   },
   "modules": [
     {
       "key": "symbols",
       "slug": "phonetic-symbols",
-      "title": "Individual phonetic symbols",
-      "summary": "Meet the core vowel and consonant symbols, hear them clearly, and compare them with nearby sounds.",
-      "theme_label": "Foundations",
+      "title": {
+        "en": "Individual phonetic symbols",
+        "ru": "Отдельные фонетические символы"
+      },
+      "summary": {
+        "en": "Meet the core vowel and consonant symbols, hear them clearly, and compare them with nearby sounds.",
+        "ru": "Познакомьтесь с основными гласными и согласными символами, послушайте их и сравните с похожими звуками."
+      },
+      "theme_label": { "en": "Foundations", "ru": "Основа" },
       "order": 1
     },
     {
       "key": "combinations",
       "slug": "sound-combinations",
-      "title": "Sound combinations and diphthongs",
-      "summary": "Study how sounds combine and how those combinations differ from similar patterns.",
-      "theme_label": "Combinations",
+      "title": {
+        "en": "Sound combinations and diphthongs",
+        "ru": "Сочетания звуков и дифтонги"
+      },
+      "summary": {
+        "en": "Study how sounds combine and how those combinations differ from similar patterns.",
+        "ru": "Изучите, как звуки соединяются и чем такие сочетания отличаются от похожих моделей."
+      },
+      "theme_label": { "en": "Combinations", "ru": "Сочетания" },
       "order": 2
     },
     {
       "key": "rules",
       "slug": "reading-rules",
-      "title": "Reading rules",
-      "summary": "Connect spelling patterns, transcription, and pronunciation through reusable examples.",
-      "theme_label": "Reading",
+      "title": { "en": "Reading rules", "ru": "Правила чтения" },
+      "summary": {
+        "en": "Connect spelling patterns, transcription, and pronunciation through reusable examples.",
+        "ru": "Свяжите орфографические модели, транскрипцию и произношение с помощью переиспользуемых примеров."
+      },
+      "theme_label": { "en": "Reading", "ru": "Чтение" },
       "order": 3
     },
     {
       "key": "practice",
       "slug": "practice-lab",
-      "title": "Practice lab",
-      "summary": "Use mixed exercises to reinforce symbols, audio recognition, stress, and rule application.",
-      "theme_label": "Practice",
+      "title": { "en": "Practice lab", "ru": "Лаборатория практики" },
+      "summary": {
+        "en": "Use mixed exercises to reinforce symbols, audio recognition, stress, and rule application.",
+        "ru": "Используйте смешанные упражнения, чтобы закрепить символы, распознавание на слух, ударение и применение правил."
+      },
+      "theme_label": { "en": "Practice", "ru": "Практика" },
       "order": 4
     }
   ],
   "audioAssets": [
     {
       "key": "short-i-symbol",
-      "title": "Short i symbol",
-      "description": "Placeholder audio for /ɪ/.",
+      "title": { "en": "Short i symbol", "ru": "Символ short i" },
+      "description": { "en": "Placeholder audio for /ɪ/.", "ru": "Тестовое аудио для /ɪ/." },
       "transcript": "/ɪ/",
       "phonetic_focus": "short-i",
       "file": "short-i-symbol.wav"
     },
     {
       "key": "ship-word",
-      "title": "Ship",
-      "description": "Example pronunciation for ship.",
+      "title": { "en": "Ship", "ru": "Ship" },
+      "description": {
+        "en": "Example pronunciation for ship.",
+        "ru": "Пример произношения слова ship."
+      },
       "transcript": "ship",
       "phonetic_focus": "short-i",
       "file": "ship-word.wav"
     },
     {
       "key": "ai-diphthong",
-      "title": "Diphthong /eɪ/",
-      "description": "Placeholder audio for /eɪ/.",
+      "title": { "en": "Diphthong /eɪ/", "ru": "Дифтонг /eɪ/" },
+      "description": {
+        "en": "Placeholder audio for /eɪ/.",
+        "ru": "Тестовое аудио для /eɪ/."
+      },
       "transcript": "/eɪ/",
       "phonetic_focus": "ay",
       "file": "ai-diphthong.wav"
     },
     {
       "key": "day-word",
-      "title": "Day",
-      "description": "Example pronunciation for day.",
+      "title": { "en": "Day", "ru": "Day" },
+      "description": {
+        "en": "Example pronunciation for day.",
+        "ru": "Пример произношения слова day."
+      },
       "transcript": "day",
       "phonetic_focus": "ay",
       "file": "day-word.wav"
     },
     {
       "key": "magic-e-rule",
-      "title": "Magic e rule",
-      "description": "Rule introduction audio.",
+      "title": { "en": "Magic e rule", "ru": "Правило magic e" },
+      "description": {
+        "en": "Rule introduction audio.",
+        "ru": "Аудио-введение к правилу."
+      },
       "transcript": "magic e",
       "phonetic_focus": "silent-e",
       "file": "magic-e-rule.wav"
     },
     {
       "key": "made-word",
-      "title": "Made",
-      "description": "Example pronunciation for made.",
+      "title": { "en": "Made", "ru": "Made" },
+      "description": {
+        "en": "Example pronunciation for made.",
+        "ru": "Пример произношения слова made."
+      },
       "transcript": "made",
       "phonetic_focus": "silent-e",
       "file": "made-word.wav"
     },
     {
       "key": "audio-choice-a",
-      "title": "Audio option A",
-      "description": "Exercise audio option A.",
+      "title": { "en": "Audio option A", "ru": "Аудио-вариант A" },
+      "description": {
+        "en": "Exercise audio option A.",
+        "ru": "Аудио-вариант A для упражнения."
+      },
       "transcript": "/eɪ/",
       "phonetic_focus": "exercise",
       "file": "audio-choice-a.wav"
     },
     {
       "key": "audio-choice-b",
-      "title": "Audio option B",
-      "description": "Exercise audio option B.",
+      "title": { "en": "Audio option B", "ru": "Аудио-вариант B" },
+      "description": {
+        "en": "Exercise audio option B.",
+        "ru": "Аудио-вариант B для упражнения."
+      },
       "transcript": "/ɪ/",
       "phonetic_focus": "exercise",
       "file": "audio-choice-b.wav"
@@ -112,48 +163,66 @@
       "key": "ship",
       "word": "ship",
       "transcription": "/ʃɪp/",
-      "translation": "корабль",
-      "note": "Short /ɪ/ in a closed syllable.",
+      "translation": { "en": "ship (vessel)", "ru": "корабль" },
+      "note": {
+        "en": "Short /ɪ/ in a closed syllable.",
+        "ru": "Краткий /ɪ/ в закрытом слоге."
+      },
       "primary_audio": "ship-word"
     },
     {
       "key": "sit",
       "word": "sit",
       "transcription": "/sɪt/",
-      "translation": "сидеть",
-      "note": "Another common short /ɪ/ example.",
+      "translation": { "en": "sit", "ru": "сидеть" },
+      "note": {
+        "en": "Another common short /ɪ/ example.",
+        "ru": "Ещё один частый пример краткого /ɪ/."
+      },
       "primary_audio": "short-i-symbol"
     },
     {
       "key": "day",
       "word": "day",
       "transcription": "/deɪ/",
-      "translation": "день",
-      "note": "Classic /eɪ/ diphthong.",
+      "translation": { "en": "day", "ru": "день" },
+      "note": {
+        "en": "Classic /eɪ/ diphthong.",
+        "ru": "Классический дифтонг /eɪ/."
+      },
       "primary_audio": "day-word"
     },
     {
       "key": "cake",
       "word": "cake",
       "transcription": "/keɪk/",
-      "translation": "торт",
-      "note": "The final e changes the vowel sound.",
+      "translation": { "en": "cake", "ru": "торт" },
+      "note": {
+        "en": "The final e changes the vowel sound.",
+        "ru": "Финальная e меняет звучание гласной."
+      },
       "primary_audio": "magic-e-rule"
     },
     {
       "key": "made",
       "word": "made",
       "transcription": "/meɪd/",
-      "translation": "сделал",
-      "note": "Long vowel produced by the final e pattern.",
+      "translation": { "en": "made", "ru": "сделал" },
+      "note": {
+        "en": "Long vowel produced by the final e pattern.",
+        "ru": "Долгий гласный, который возникает из-за паттерна с финальной e."
+      },
       "primary_audio": "made-word"
     },
     {
       "key": "mad",
       "word": "mad",
       "transcription": "/mæd/",
-      "translation": "злой",
-      "note": "No final e, so the vowel stays short.",
+      "translation": { "en": "mad", "ru": "злой" },
+      "note": {
+        "en": "No final e, so the vowel stays short.",
+        "ru": "Финальной e нет, поэтому гласный остаётся кратким."
+      },
       "primary_audio": "made-word"
     }
   ],
@@ -162,12 +231,24 @@
       "key": "short-i",
       "slug": "short-i",
       "symbol": "/ɪ/",
-      "title": "Short i sound",
-      "sound_type": "Short vowel",
-      "explanation": "The /ɪ/ sound is short, relaxed, and common in words such as ship and sit.",
-      "stress_note": "In unstressed syllables it may weaken further, so learners often over-pronounce it.",
-      "common_mistakes": "Learners often confuse /ɪ/ with /iː/ and make it too long.",
-      "comparison_note": "Compare ship /ʃɪp/ with sheep /ʃiːp/ to hear length and tongue position differences.",
+      "title": { "en": "Short i sound", "ru": "Звук short i" },
+      "sound_type": { "en": "Short vowel", "ru": "Краткий гласный" },
+      "explanation": {
+        "en": "The /ɪ/ sound is short, relaxed, and common in words such as ship and sit.",
+        "ru": "Звук /ɪ/ короткий, расслабленный и часто встречается в словах ship и sit."
+      },
+      "stress_note": {
+        "en": "In unstressed syllables it may weaken further, so learners often over-pronounce it.",
+        "ru": "В безударных слогах он может ослабевать ещё сильнее, поэтому учащиеся часто произносят его слишком отчётливо."
+      },
+      "common_mistakes": {
+        "en": "Learners often confuse /ɪ/ with /iː/ and make it too long.",
+        "ru": "Учащиеся часто путают /ɪ/ с /iː/ и делают звук слишком долгим."
+      },
+      "comparison_note": {
+        "en": "Compare ship /ʃɪp/ with sheep /ʃiːp/ to hear length and tongue position differences.",
+        "ru": "Сравните ship /ʃɪp/ и sheep /ʃiːp/, чтобы услышать разницу в долготе и положении языка."
+      },
       "primary_audio": "short-i-symbol",
       "example_keys": ["ship", "sit"]
     }
@@ -177,11 +258,23 @@
       "key": "ay-diphthong",
       "slug": "ay-diphthong",
       "combination_text": "/eɪ/",
-      "title": "Diphthong /eɪ/",
-      "explanation": "This diphthong begins near /e/ and glides toward /ɪ/, as in day and cake.",
-      "stress_note": "In stressed syllables the glide is clearer; rushed speech can shorten it.",
-      "common_mistakes": "Learners may replace the glide with a flat /e/ sound.",
-      "comparison_note": "Compare /eɪ/ in day with /æ/ in dad to hear the glide clearly.",
+      "title": { "en": "Diphthong /eɪ/", "ru": "Дифтонг /eɪ/" },
+      "explanation": {
+        "en": "This diphthong begins near /e/ and glides toward /ɪ/, as in day and cake.",
+        "ru": "Этот дифтонг начинается рядом с /e/ и скользит к /ɪ/, как в day и cake."
+      },
+      "stress_note": {
+        "en": "In stressed syllables the glide is clearer; rushed speech can shorten it.",
+        "ru": "В ударных слогах скольжение слышнее, а в быстрой речи оно может сокращаться."
+      },
+      "common_mistakes": {
+        "en": "Learners may replace the glide with a flat /e/ sound.",
+        "ru": "Учащиеся могут заменять скольжение плоским звуком /e/."
+      },
+      "comparison_note": {
+        "en": "Compare /eɪ/ in day with /æ/ in dad to hear the glide clearly.",
+        "ru": "Сравните /eɪ/ в day с /æ/ в dad, чтобы отчётливо услышать скольжение."
+      },
       "primary_audio": "ai-diphthong",
       "example_keys": ["day", "cake"]
     }
@@ -190,12 +283,30 @@
     {
       "key": "magic-e",
       "slug": "magic-e",
-      "title": "Final e changes the vowel",
-      "rule_statement": "When a word ends with silent e, the earlier vowel often says its name.",
-      "explanation": "In many one-syllable words, a final silent e changes a short vowel into a long vowel or diphthong pattern.",
-      "exceptions": "This pattern is common but not universal; borrowed words and irregular spellings may break it.",
-      "limitations": "Treat it as a useful pattern, not a perfect law. Always confirm with transcription when possible.",
-      "practice_intro": "Try the linked exercise to decide when final e changes the vowel sound.",
+      "title": {
+        "en": "Final e changes the vowel",
+        "ru": "Финальная e меняет гласную"
+      },
+      "rule_statement": {
+        "en": "When a word ends with silent e, the earlier vowel often says its name.",
+        "ru": "Когда слово заканчивается на немую e, предыдущая гласная часто звучит как своё название."
+      },
+      "explanation": {
+        "en": "In many one-syllable words, a final silent e changes a short vowel into a long vowel or diphthong pattern.",
+        "ru": "Во многих односложных словах финальная немая e превращает краткий гласный в долгий гласный или дифтонг."
+      },
+      "exceptions": {
+        "en": "This pattern is common but not universal; borrowed words and irregular spellings may break it.",
+        "ru": "Этот паттерн распространён, но не универсален: заимствованные слова и нестандартные написания могут его нарушать."
+      },
+      "limitations": {
+        "en": "Treat it as a useful pattern, not a perfect law. Always confirm with transcription when possible.",
+        "ru": "Считайте это полезным паттерном, а не абсолютным законом. По возможности проверяйте по транскрипции."
+      },
+      "practice_intro": {
+        "en": "Try the linked exercise to decide when final e changes the vowel sound.",
+        "ru": "Попробуйте связанное упражнение, чтобы определить, когда финальная e меняет гласный звук."
+      },
       "example_keys": ["made", "cake", "mad"],
       "reinforcement_exercise_keys": ["mvp-drill"]
     }
@@ -204,99 +315,179 @@
     {
       "key": "mvp-drill",
       "slug": "mvp-drill",
-      "title": "MVP phonetics drill",
-      "summary": "A mixed practice set covering audio recognition, transcription, stress, and reading rules.",
-      "instructions": "Complete each item and use the explanations to compare sounds, stress, and spelling patterns.",
+      "title": { "en": "MVP phonetics drill", "ru": "MVP-тренировка по фонетике" },
+      "summary": {
+        "en": "A mixed practice set covering audio recognition, transcription, stress, and reading rules.",
+        "ru": "Смешанный набор практики по распознаванию на слух, транскрипции, ударению и правилам чтения."
+      },
+      "instructions": {
+        "en": "Complete each item and use the explanations to compare sounds, stress, and spelling patterns.",
+        "ru": "Выполните каждое задание и используйте объяснения, чтобы сравнить звуки, ударение и орфографические модели."
+      },
       "show_item_feedback": true,
       "passing_score": 70,
       "items": [
         {
           "sort": 1,
           "type": "audio_to_symbol",
-          "prompt": "Which symbol matches the sound you hear?",
+          "prompt": {
+            "en": "Which symbol matches the sound you hear?",
+            "ru": "Какой символ соответствует звуку, который вы слышите?"
+          },
           "prompt_audio": "short-i-symbol",
           "options": [
-            { "id": "audio-symbol-1", "label": "Option A", "symbol": "/ɪ/" },
-            { "id": "audio-symbol-2", "label": "Option B", "symbol": "/iː/" },
-            { "id": "audio-symbol-3", "label": "Option C", "symbol": "/eɪ/" }
+            {
+              "id": "audio-symbol-1",
+              "label": { "en": "Option A", "ru": "Вариант A" },
+              "symbol": "/ɪ/"
+            },
+            {
+              "id": "audio-symbol-2",
+              "label": { "en": "Option B", "ru": "Вариант B" },
+              "symbol": "/iː/"
+            },
+            {
+              "id": "audio-symbol-3",
+              "label": { "en": "Option C", "ru": "Вариант C" },
+              "symbol": "/eɪ/"
+            }
           ],
           "correct_option_ids": ["audio-symbol-1"],
-          "explanation": "The recording targets the short /ɪ/ sound."
+          "explanation": {
+            "en": "The recording targets the short /ɪ/ sound.",
+            "ru": "В записи звучит краткий звук /ɪ/."
+          }
         },
         {
           "sort": 2,
           "type": "symbol_to_audio",
-          "prompt": "Which audio option matches the symbol below?",
+          "prompt": {
+            "en": "Which audio option matches the symbol below?",
+            "ru": "Какой аудио-вариант соответствует символу ниже?"
+          },
           "prompt_symbol": "/eɪ/",
           "options": [
-            { "id": "symbol-audio-1", "label": "Audio option A", "audio_asset_id": "audio-choice-a" },
-            { "id": "symbol-audio-2", "label": "Audio option B", "audio_asset_id": "audio-choice-b" }
+            {
+              "id": "symbol-audio-1",
+              "label": { "en": "Audio option A", "ru": "Аудио-вариант A" },
+              "audio_asset_id": "audio-choice-a"
+            },
+            {
+              "id": "symbol-audio-2",
+              "label": { "en": "Audio option B", "ru": "Аудио-вариант B" },
+              "audio_asset_id": "audio-choice-b"
+            }
           ],
           "correct_option_ids": ["symbol-audio-1"],
-          "explanation": "The /eɪ/ diphthong glides toward /ɪ/, represented by audio option A."
+          "explanation": {
+            "en": "The /eɪ/ diphthong glides toward /ɪ/, represented by audio option A.",
+            "ru": "Дифтонг /eɪ/ скользит к /ɪ/, что соответствует аудио-варианту A."
+          }
         },
         {
           "sort": 3,
           "type": "symbol_to_word",
-          "prompt": "Choose the word that contains the target sound.",
+          "prompt": {
+            "en": "Choose the word that contains the target sound.",
+            "ru": "Выберите слово, которое содержит нужный звук."
+          },
           "prompt_symbol": "/ɪ/",
           "options": [
-            { "id": "symbol-word-1", "label": "Ship", "word": "ship" },
-            { "id": "symbol-word-2", "label": "Sheep", "word": "sheep" },
-            { "id": "symbol-word-3", "label": "Cake", "word": "cake" }
+            {
+              "id": "symbol-word-1",
+              "label": { "en": "Ship", "ru": "Ship" },
+              "word": "ship"
+            },
+            {
+              "id": "symbol-word-2",
+              "label": { "en": "Sheep", "ru": "Sheep" },
+              "word": "sheep"
+            },
+            {
+              "id": "symbol-word-3",
+              "label": { "en": "Cake", "ru": "Cake" },
+              "word": "cake"
+            }
           ],
           "correct_option_ids": ["symbol-word-1"],
-          "explanation": "Ship contains /ɪ/, while sheep has /iː/."
+          "explanation": {
+            "en": "Ship contains /ɪ/, while sheep has /iː/.",
+            "ru": "В слове ship есть /ɪ/, а в sheep — /iː/."
+          }
         },
         {
           "sort": 4,
           "type": "transcription_to_word",
-          "prompt": "Which word matches this transcription?",
+          "prompt": {
+            "en": "Which word matches this transcription?",
+            "ru": "Какое слово соответствует этой транскрипции?"
+          },
           "prompt_transcription": "/meɪd/",
           "options": [
-            { "id": "trans-word-1", "label": "mad", "word": "mad" },
-            { "id": "trans-word-2", "label": "made", "word": "made" },
-            { "id": "trans-word-3", "label": "mid", "word": "mid" }
+            { "id": "trans-word-1", "label": { "en": "mad", "ru": "mad" }, "word": "mad" },
+            { "id": "trans-word-2", "label": { "en": "made", "ru": "made" }, "word": "made" },
+            { "id": "trans-word-3", "label": { "en": "mid", "ru": "mid" }, "word": "mid" }
           ],
           "correct_option_ids": ["trans-word-2"],
-          "explanation": "The transcription /meɪd/ matches made."
+          "explanation": {
+            "en": "The transcription /meɪd/ matches made.",
+            "ru": "Транскрипция /meɪd/ соответствует слову made."
+          }
         },
         {
           "sort": 5,
           "type": "stress_selection",
-          "prompt": "Choose the item with stress on the second syllable.",
+          "prompt": {
+            "en": "Choose the item with stress on the second syllable.",
+            "ru": "Выберите вариант с ударением на втором слоге."
+          },
           "options": [
-            { "id": "stress-1", "label": "REcord" },
-            { "id": "stress-2", "label": "reCORD" },
-            { "id": "stress-3", "label": "PHOtograph" }
+            { "id": "stress-1", "label": { "en": "REcord", "ru": "REcord" } },
+            { "id": "stress-2", "label": { "en": "reCORD", "ru": "reCORD" } },
+            { "id": "stress-3", "label": { "en": "PHOtograph", "ru": "PHOtograph" } }
           ],
           "correct_option_ids": ["stress-2"],
-          "explanation": "reCORD places the main stress on the second syllable."
+          "explanation": {
+            "en": "reCORD places the main stress on the second syllable.",
+            "ru": "В слове reCORD основное ударение падает на второй слог."
+          }
         },
         {
           "sort": 6,
           "type": "similar_sound_discrimination",
-          "prompt": "Which option contains /ɪ/ rather than /iː/?",
+          "prompt": {
+            "en": "Which option contains /ɪ/ rather than /iː/?",
+            "ru": "В каком варианте есть /ɪ/, а не /iː/?"
+          },
           "options": [
-            { "id": "contrast-1", "label": "ship", "word": "ship" },
-            { "id": "contrast-2", "label": "sheep", "word": "sheep" },
-            { "id": "contrast-3", "label": "seat", "word": "seat" }
+            { "id": "contrast-1", "label": { "en": "ship", "ru": "ship" }, "word": "ship" },
+            { "id": "contrast-2", "label": { "en": "sheep", "ru": "sheep" }, "word": "sheep" },
+            { "id": "contrast-3", "label": { "en": "seat", "ru": "seat" }, "word": "seat" }
           ],
           "correct_option_ids": ["contrast-1"],
-          "explanation": "Ship contains /ɪ/; sheep and seat use a longer vowel.",
+          "explanation": {
+            "en": "Ship contains /ɪ/; sheep and seat use a longer vowel.",
+            "ru": "В слове ship есть /ɪ/, а в sheep и seat используется более долгий гласный."
+          },
           "linked_example_word": "ship"
         },
         {
           "sort": 7,
           "type": "reading_rule_application",
-          "prompt": "Which word shows the final-e reading pattern?",
+          "prompt": {
+            "en": "Which word shows the final-e reading pattern?",
+            "ru": "Какое слово показывает паттерн чтения с финальной e?"
+          },
           "options": [
-            { "id": "rule-1", "label": "cape", "word": "cape" },
-            { "id": "rule-2", "label": "cap", "word": "cap" },
-            { "id": "rule-3", "label": "bag", "word": "bag" }
+            { "id": "rule-1", "label": { "en": "cape", "ru": "cape" }, "word": "cape" },
+            { "id": "rule-2", "label": { "en": "cap", "ru": "cap" }, "word": "cap" },
+            { "id": "rule-3", "label": { "en": "bag", "ru": "bag" }, "word": "bag" }
           ],
           "correct_option_ids": ["rule-1"],
-          "explanation": "The final e in cape changes the vowel sound compared with cap."
+          "explanation": {
+            "en": "The final e in cape changes the vowel sound compared with cap.",
+            "ru": "Финальная e в слове cape меняет гласный звук по сравнению с cap."
+          }
         }
       ]
     }
@@ -305,8 +496,11 @@
     {
       "module": "symbols",
       "slug": "short-i-symbol",
-      "title": "Meet /ɪ/",
-      "description": "Study the short i sound and hear it in common words.",
+      "title": { "en": "Meet /ɪ/", "ru": "Знакомство с /ɪ/" },
+      "description": {
+        "en": "Study the short i sound and hear it in common words.",
+        "ru": "Изучите краткий звук i и послушайте его в распространённых словах."
+      },
       "lesson_type": "phonetic_symbol",
       "order": 1,
       "estimated_minutes": 7,
@@ -315,8 +509,14 @@
     {
       "module": "combinations",
       "slug": "ay-diphthong",
-      "title": "Hear /eɪ/ as a diphthong",
-      "description": "Learn how the /eɪ/ glide behaves in words such as day and cake.",
+      "title": {
+        "en": "Hear /eɪ/ as a diphthong",
+        "ru": "Услышьте /eɪ/ как дифтонг"
+      },
+      "description": {
+        "en": "Learn how the /eɪ/ glide behaves in words such as day and cake.",
+        "ru": "Узнайте, как скольжение /eɪ/ ведёт себя в словах day и cake."
+      },
       "lesson_type": "sound_combination",
       "order": 1,
       "estimated_minutes": 6,
@@ -325,8 +525,14 @@
     {
       "module": "rules",
       "slug": "magic-e-rule",
-      "title": "Use final e to predict vowel sound",
-      "description": "Connect the silent-e pattern to transcription and pronunciation.",
+      "title": {
+        "en": "Use final e to predict vowel sound",
+        "ru": "Используйте финальную e, чтобы предсказать гласный звук"
+      },
+      "description": {
+        "en": "Connect the silent-e pattern to transcription and pronunciation.",
+        "ru": "Свяжите паттерн silent e с транскрипцией и произношением."
+      },
       "lesson_type": "reading_rule",
       "order": 1,
       "estimated_minutes": 8,
@@ -335,8 +541,14 @@
     {
       "module": "practice",
       "slug": "mvp-drill",
-      "title": "Mixed listening and reading drill",
-      "description": "Review symbols, combinations, stress, and reading rules in one exercise lesson.",
+      "title": {
+        "en": "Mixed listening and reading drill",
+        "ru": "Смешанная тренировка на аудирование и чтение"
+      },
+      "description": {
+        "en": "Review symbols, combinations, stress, and reading rules in one exercise lesson.",
+        "ru": "Повторите символы, сочетания, ударение и правила чтения в одном упражнении."
+      },
       "lesson_type": "exercise",
       "order": 1,
       "estimated_minutes": 10,

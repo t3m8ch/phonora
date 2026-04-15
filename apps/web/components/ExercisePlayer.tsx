@@ -3,19 +3,10 @@
 import { useMemo, useState } from "react";
 
 import { AudioPlayer } from "@/components/AudioPlayer";
+import { getDictionary, type Locale } from "@/lib/i18n";
 import type { ExerciseItemView, ExerciseView } from "@/lib/types";
 
 type SelectionState = Record<string, string[]>;
-
-const interactionHint: Record<ExerciseItemView["type"], string> = {
-  audio_to_symbol: "Listen to the audio and choose the matching symbol.",
-  symbol_to_audio: "Look at the symbol and choose the audio label that matches it.",
-  symbol_to_word: "Choose the word that contains the target sound.",
-  transcription_to_word: "Pick the word that matches the transcription.",
-  stress_selection: "Choose the option with the correct stress pattern.",
-  similar_sound_discrimination: "Pick the option that contains the target sound contrast.",
-  reading_rule_application: "Choose the option that best applies the reading rule.",
-};
 
 function evaluateSelection(item: ExerciseItemView, selectedIds: string[]) {
   const expected = [...item.correctOptionIds].sort().join("|");
@@ -29,35 +20,42 @@ function ExerciseItemCard({
   setSelectedIds,
   submitted,
   showFeedback,
+  locale,
 }: {
   item: ExerciseItemView;
   selectedIds: string[];
   setSelectedIds: (nextValue: string[]) => void;
   submitted: boolean;
   showFeedback: boolean;
+  locale: Locale;
 }) {
+  const dictionary = getDictionary(locale);
   const isMultiSelect = item.correctOptionIds.length > 1;
   const isCorrect = submitted ? evaluateSelection(item, selectedIds) : null;
 
   return (
     <article className="card exerciseItem" id={`exercise-item-${item.id}`}>
       <div className="stack-sm">
-        <p className="eyebrow">{item.type.replaceAll("_", " ")}</p>
+        <p className="eyebrow">{dictionary.exercise.itemTypes[item.type]}</p>
         <h3>{item.prompt}</h3>
-        <p className="muted">{interactionHint[item.type]}</p>
+        <p className="muted">{dictionary.exercise.interactionHints[item.type]}</p>
         {item.promptSymbol ? <p className="symbolInline">{item.promptSymbol}</p> : null}
-        {item.promptWord ? <p><strong>{item.promptWord}</strong></p> : null}
+        {item.promptWord ? (
+          <p>
+            <strong>{item.promptWord}</strong>
+          </p>
+        ) : null}
         {item.promptTranscription ? <p className="mono">{item.promptTranscription}</p> : null}
         {item.promptNote ? <p>{item.promptNote}</p> : null}
-        <AudioPlayer audio={item.promptAudio} />
+        <AudioPlayer audio={item.promptAudio} locale={locale} />
         {item.linkedExampleWord ? (
           <div className="subCard stack-sm">
-            <span className="eyebrow">Linked example</span>
+            <span className="eyebrow">{dictionary.exercise.linkedExample}</span>
             <strong>{item.linkedExampleWord.word}</strong>
             {item.linkedExampleWord.transcription ? (
               <p className="mono">{item.linkedExampleWord.transcription}</p>
             ) : null}
-            <AudioPlayer audio={item.linkedExampleWord.audio} />
+            <AudioPlayer audio={item.linkedExampleWord.audio} locale={locale} />
           </div>
         ) : null}
       </div>
@@ -86,7 +84,7 @@ function ExerciseItemCard({
               {option.symbol ? <span className="symbolInline small">{option.symbol}</span> : null}
               {option.word ? <span>{option.word}</span> : null}
               {option.transcription ? <span className="mono">{option.transcription}</span> : null}
-              {option.audio ? <AudioPlayer audio={option.audio} /> : null}
+              {option.audio ? <AudioPlayer audio={option.audio} locale={locale} /> : null}
             </button>
           );
         })}
@@ -94,7 +92,7 @@ function ExerciseItemCard({
 
       {showFeedback && submitted ? (
         <div className={`feedback ${isCorrect ? "correct" : "incorrect"}`}>
-          <strong>{isCorrect ? "Correct" : "Try again"}</strong>
+          <strong>{isCorrect ? dictionary.exercise.correct : dictionary.exercise.tryAgain}</strong>
           {item.explanation ? <p>{item.explanation}</p> : null}
         </div>
       ) : null}
@@ -102,7 +100,14 @@ function ExerciseItemCard({
   );
 }
 
-export function ExercisePlayer({ exercise }: { exercise: ExerciseView }) {
+export function ExercisePlayer({
+  exercise,
+  locale,
+}: {
+  exercise: ExerciseView;
+  locale: Locale;
+}) {
+  const dictionary = getDictionary(locale);
   const [selection, setSelection] = useState<SelectionState>({});
   const [submitted, setSubmitted] = useState(false);
 
@@ -120,13 +125,19 @@ export function ExercisePlayer({ exercise }: { exercise: ExerciseView }) {
   return (
     <section className="stack-lg" id={`exercise-${exercise.slug}`}>
       <section className="card lessonCard stack-md">
-        <p className="eyebrow">Practice</p>
+        <p className="eyebrow">{dictionary.exercise.practice}</p>
         <h2>{exercise.title}</h2>
         {exercise.summary ? <p className="lead">{exercise.summary}</p> : null}
         <p>{exercise.instructions}</p>
         <div className="exerciseSummary">
-          <span>{exercise.items.length} items</span>
-          {exercise.passingScore ? <span>Passing score: {exercise.passingScore}%</span> : null}
+          <span>
+            {exercise.items.length} {dictionary.exercise.items}
+          </span>
+          {exercise.passingScore ? (
+            <span>
+              {dictionary.exercise.passingScore}: {exercise.passingScore}%
+            </span>
+          ) : null}
         </div>
       </section>
 
@@ -140,13 +151,14 @@ export function ExercisePlayer({ exercise }: { exercise: ExerciseView }) {
           }}
           submitted={submitted}
           showFeedback={exercise.showItemFeedback}
+          locale={locale}
         />
       ))}
 
       <section className="card lessonCard stack-md">
         <div className="exerciseActions">
           <button className="button primary" type="button" onClick={() => setSubmitted(true)}>
-            Check answers
+            {dictionary.exercise.checkAnswers}
           </button>
           <button
             className="button secondary"
@@ -156,23 +168,27 @@ export function ExercisePlayer({ exercise }: { exercise: ExerciseView }) {
               setSubmitted(false);
             }}
           >
-            Reset
+            {dictionary.exercise.reset}
           </button>
         </div>
         {submitted ? (
-          <div className={`feedback ${percentage >= (exercise.passingScore ?? 0) ? "correct" : "incorrect"}`}>
+          <div
+            className={`feedback ${
+              percentage >= (exercise.passingScore ?? 0) ? "correct" : "incorrect"
+            }`}
+          >
             <strong>
-              Score: {score}/{exercise.items.length} ({percentage}%)
+              {dictionary.exercise.score}: {score}/{exercise.items.length} ({percentage}%)
             </strong>
             <p>
               {exercise.passingScore
                 ? percentage >= exercise.passingScore
-                  ? "Nice work — you reached the target score."
-                  : "You can review the explanations above and try again."
-                : "Review each item above to reinforce the sound or reading rule."}
+                  ? dictionary.exercise.passed
+                  : dictionary.exercise.retry
+                : dictionary.exercise.review}
             </p>
             <p className="muted">
-              Instant feedback enabled: {exercise.showItemFeedback ? "yes" : "summary only"}
+              {dictionary.exercise.instantFeedback}: {exercise.showItemFeedback ? dictionary.exercise.yes : dictionary.exercise.no}
             </p>
           </div>
         ) : null}

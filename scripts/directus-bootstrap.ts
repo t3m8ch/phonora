@@ -80,6 +80,48 @@ const lessonTypeChoices = [
   "exercise",
 ].map((value) => ({ text: value, value }));
 
+type LocalizedFieldOptions = {
+  interface: "input" | "input-multiline" | "input-rich-text-html";
+  width?: "half" | "full";
+  note: string;
+  maxLength?: number;
+};
+
+const localizedFieldDefinitions = (
+  field: string,
+  options: LocalizedFieldOptions,
+): FieldDefinition[] => {
+  const isText = options.interface !== "input";
+  const width = options.width ?? (isText ? "full" : "half");
+
+  return [
+    {
+      field: `${field}_en`,
+      type: isText ? "text" : "string",
+      meta: {
+        interface: options.interface,
+        width,
+        note: `${options.note} (English)`,
+      },
+      schema: isText
+        ? { data_type: "text" }
+        : { data_type: "varchar", max_length: options.maxLength ?? 255 },
+    },
+    {
+      field: `${field}_ru`,
+      type: isText ? "text" : "string",
+      meta: {
+        interface: options.interface,
+        width,
+        note: `${options.note} (Русский)`,
+      },
+      schema: isText
+        ? { data_type: "text" }
+        : { data_type: "varchar", max_length: options.maxLength ?? 255 },
+    },
+  ];
+};
+
 const collections: CollectionDefinition[] = [
   { collection: "courses", meta: { icon: "school", note: "Top-level course configuration for Phonora." } },
   { collection: "modules", meta: { icon: "view_list", note: "Ordered modules within a course." } },
@@ -101,20 +143,21 @@ const fields: Record<string, FieldDefinition[]> = {
   courses: [
     { field: "status", type: "string", meta: { interface: "select-dropdown", options: { choices: statusChoices }, width: "half" }, schema: { data_type: "varchar", max_length: 20, default_value: "draft", is_nullable: false } },
     { field: "slug", type: "string", meta: { interface: "input", width: "half" }, schema: { data_type: "varchar", max_length: 255, is_unique: true, is_nullable: false } },
-    { field: "title", type: "string", meta: { interface: "input", width: "half" }, schema: { data_type: "varchar", max_length: 255, is_nullable: false } },
-    { field: "summary", type: "text", meta: { interface: "input-multiline", width: "full" }, schema: { data_type: "text" } },
-    { field: "description", type: "text", meta: { interface: "input-rich-text-html", width: "full" }, schema: { data_type: "text" } },
-    { field: "hero_headline", type: "string", meta: { interface: "input", width: "full" }, schema: { data_type: "varchar", max_length: 255 } },
-    { field: "hero_subheadline", type: "text", meta: { interface: "input-multiline", width: "full" }, schema: { data_type: "text" } },
+    ...localizedFieldDefinitions("title", { interface: "input", note: "Localized course title" }),
+    ...localizedFieldDefinitions("summary", { interface: "input-multiline", note: "Localized course summary", width: "full" }),
+    ...localizedFieldDefinitions("description", { interface: "input-rich-text-html", note: "Localized course description", width: "full" }),
+    ...localizedFieldDefinitions("hero_headline", { interface: "input", note: "Localized hero headline", width: "full" }),
+    ...localizedFieldDefinitions("hero_subheadline", { interface: "input-multiline", note: "Localized hero subheadline", width: "full" }),
     { field: "modules", type: "alias", meta: { special: ["o2m"], interface: "list-o2m" } },
   ],
   modules: [
     { field: "status", type: "string", meta: { interface: "select-dropdown", options: { choices: statusChoices }, width: "half" }, schema: { data_type: "varchar", max_length: 20, default_value: "draft", is_nullable: false } },
     { field: "course", type: "uuid", meta: { interface: "select-dropdown-m2o", width: "half" }, schema: { data_type: "uuid" } },
     { field: "slug", type: "string", meta: { interface: "input", width: "half" }, schema: { data_type: "varchar", max_length: 255, is_unique: true, is_nullable: false } },
-    { field: "title", type: "string", meta: { interface: "input", width: "half" }, schema: { data_type: "varchar", max_length: 255, is_nullable: false } },
-    { field: "summary", type: "text", meta: { interface: "input-multiline", width: "full" }, schema: { data_type: "text" } },
+    ...localizedFieldDefinitions("title", { interface: "input", note: "Localized module title" }),
+    ...localizedFieldDefinitions("summary", { interface: "input-multiline", note: "Localized module summary", width: "full" }),
     { field: "theme_label", type: "string", meta: { interface: "input", width: "half" }, schema: { data_type: "varchar", max_length: 255 } },
+    ...localizedFieldDefinitions("theme_label", { interface: "input", note: "Localized module theme label" }),
     { field: "order", type: "integer", meta: { interface: "input", width: "half" }, schema: { data_type: "integer", default_value: 1, is_nullable: false } },
     { field: "lesson_blocks", type: "alias", meta: { special: ["o2m"], interface: "list-o2m" } },
   ],
@@ -123,8 +166,8 @@ const fields: Record<string, FieldDefinition[]> = {
     { field: "visibility", type: "string", meta: { interface: "select-dropdown", options: { choices: visibilityChoices }, width: "half" }, schema: { data_type: "varchar", max_length: 20, default_value: "visible", is_nullable: false } },
     { field: "module", type: "uuid", meta: { interface: "select-dropdown-m2o", width: "half" }, schema: { data_type: "uuid" } },
     { field: "slug", type: "string", meta: { interface: "input", width: "half" }, schema: { data_type: "varchar", max_length: 255, is_unique: true, is_nullable: false } },
-    { field: "title", type: "string", meta: { interface: "input", width: "full" }, schema: { data_type: "varchar", max_length: 255, is_nullable: false } },
-    { field: "description", type: "text", meta: { interface: "input-multiline", width: "full" }, schema: { data_type: "text" } },
+    ...localizedFieldDefinitions("title", { interface: "input", note: "Localized lesson title", width: "full" }),
+    ...localizedFieldDefinitions("description", { interface: "input-multiline", note: "Localized lesson description", width: "full" }),
     { field: "lesson_type", type: "string", meta: { interface: "select-dropdown", options: { choices: lessonTypeChoices }, width: "half" }, schema: { data_type: "varchar", max_length: 50, is_nullable: false } },
     { field: "order", type: "integer", meta: { interface: "input", width: "half" }, schema: { data_type: "integer", default_value: 1, is_nullable: false } },
     { field: "estimated_minutes", type: "integer", meta: { interface: "input", width: "half" }, schema: { data_type: "integer" } },
@@ -135,8 +178,8 @@ const fields: Record<string, FieldDefinition[]> = {
   ],
   audio_assets: [
     { field: "status", type: "string", meta: { interface: "select-dropdown", options: { choices: statusChoices }, width: "half" }, schema: { data_type: "varchar", max_length: 20, default_value: "draft", is_nullable: false } },
-    { field: "title", type: "string", meta: { interface: "input", width: "half" }, schema: { data_type: "varchar", max_length: 255, is_nullable: false } },
-    { field: "description", type: "text", meta: { interface: "input-multiline", width: "full" }, schema: { data_type: "text" } },
+    ...localizedFieldDefinitions("title", { interface: "input", note: "Localized audio title" }),
+    ...localizedFieldDefinitions("description", { interface: "input-multiline", note: "Localized audio description", width: "full" }),
     { field: "transcript", type: "string", meta: { interface: "input", width: "half" }, schema: { data_type: "varchar", max_length: 255 } },
     { field: "phonetic_focus", type: "string", meta: { interface: "input", width: "half" }, schema: { data_type: "varchar", max_length: 255 } },
     { field: "license_note", type: "text", meta: { interface: "input-multiline", width: "full" }, schema: { data_type: "text" } },
@@ -146,20 +189,20 @@ const fields: Record<string, FieldDefinition[]> = {
     { field: "status", type: "string", meta: { interface: "select-dropdown", options: { choices: statusChoices }, width: "half" }, schema: { data_type: "varchar", max_length: 20, default_value: "draft", is_nullable: false } },
     { field: "word", type: "string", meta: { interface: "input", width: "half" }, schema: { data_type: "varchar", max_length: 255, is_nullable: false } },
     { field: "transcription", type: "string", meta: { interface: "input", width: "half" }, schema: { data_type: "varchar", max_length: 255 } },
-    { field: "translation", type: "string", meta: { interface: "input", width: "half" }, schema: { data_type: "varchar", max_length: 255 } },
-    { field: "note", type: "text", meta: { interface: "input-multiline", width: "full" }, schema: { data_type: "text" } },
+    ...localizedFieldDefinitions("translation", { interface: "input", note: "Localized example translation" }),
+    ...localizedFieldDefinitions("note", { interface: "input-multiline", note: "Localized example note", width: "full" }),
     { field: "primary_audio", type: "uuid", meta: { interface: "select-dropdown-m2o", width: "half" }, schema: { data_type: "uuid" } },
   ],
   phonetic_symbols: [
     { field: "status", type: "string", meta: { interface: "select-dropdown", options: { choices: statusChoices }, width: "half" }, schema: { data_type: "varchar", max_length: 20, default_value: "draft", is_nullable: false } },
     { field: "slug", type: "string", meta: { interface: "input", width: "half" }, schema: { data_type: "varchar", max_length: 255, is_unique: true, is_nullable: false } },
     { field: "symbol", type: "string", meta: { interface: "input", width: "half" }, schema: { data_type: "varchar", max_length: 255, is_nullable: false } },
-    { field: "title", type: "string", meta: { interface: "input", width: "half" }, schema: { data_type: "varchar", max_length: 255, is_nullable: false } },
-    { field: "sound_type", type: "string", meta: { interface: "input", width: "half" }, schema: { data_type: "varchar", max_length: 255 } },
-    { field: "explanation", type: "text", meta: { interface: "input-rich-text-html", width: "full" }, schema: { data_type: "text" } },
-    { field: "stress_note", type: "text", meta: { interface: "input-multiline", width: "full" }, schema: { data_type: "text" } },
-    { field: "common_mistakes", type: "text", meta: { interface: "input-multiline", width: "full" }, schema: { data_type: "text" } },
-    { field: "comparison_note", type: "text", meta: { interface: "input-multiline", width: "full" }, schema: { data_type: "text" } },
+    ...localizedFieldDefinitions("title", { interface: "input", note: "Localized phonetic symbol title" }),
+    ...localizedFieldDefinitions("sound_type", { interface: "input", note: "Localized sound type label" }),
+    ...localizedFieldDefinitions("explanation", { interface: "input-rich-text-html", note: "Localized symbol explanation", width: "full" }),
+    ...localizedFieldDefinitions("stress_note", { interface: "input-multiline", note: "Localized stress note", width: "full" }),
+    ...localizedFieldDefinitions("common_mistakes", { interface: "input-multiline", note: "Localized common mistakes guidance", width: "full" }),
+    ...localizedFieldDefinitions("comparison_note", { interface: "input-multiline", note: "Localized comparison guidance", width: "full" }),
     { field: "primary_audio", type: "uuid", meta: { interface: "select-dropdown-m2o", width: "half" }, schema: { data_type: "uuid" } },
     { field: "examples", type: "alias", meta: { special: ["m2m"], interface: "list-m2m" } },
   ],
@@ -172,11 +215,11 @@ const fields: Record<string, FieldDefinition[]> = {
     { field: "status", type: "string", meta: { interface: "select-dropdown", options: { choices: statusChoices }, width: "half" }, schema: { data_type: "varchar", max_length: 20, default_value: "draft", is_nullable: false } },
     { field: "slug", type: "string", meta: { interface: "input", width: "half" }, schema: { data_type: "varchar", max_length: 255, is_unique: true, is_nullable: false } },
     { field: "combination_text", type: "string", meta: { interface: "input", width: "half" }, schema: { data_type: "varchar", max_length: 255, is_nullable: false } },
-    { field: "title", type: "string", meta: { interface: "input", width: "half" }, schema: { data_type: "varchar", max_length: 255, is_nullable: false } },
-    { field: "explanation", type: "text", meta: { interface: "input-rich-text-html", width: "full" }, schema: { data_type: "text" } },
-    { field: "stress_note", type: "text", meta: { interface: "input-multiline", width: "full" }, schema: { data_type: "text" } },
-    { field: "common_mistakes", type: "text", meta: { interface: "input-multiline", width: "full" }, schema: { data_type: "text" } },
-    { field: "comparison_note", type: "text", meta: { interface: "input-multiline", width: "full" }, schema: { data_type: "text" } },
+    ...localizedFieldDefinitions("title", { interface: "input", note: "Localized sound combination title" }),
+    ...localizedFieldDefinitions("explanation", { interface: "input-rich-text-html", note: "Localized combination explanation", width: "full" }),
+    ...localizedFieldDefinitions("stress_note", { interface: "input-multiline", note: "Localized stress note", width: "full" }),
+    ...localizedFieldDefinitions("common_mistakes", { interface: "input-multiline", note: "Localized common mistakes guidance", width: "full" }),
+    ...localizedFieldDefinitions("comparison_note", { interface: "input-multiline", note: "Localized comparison guidance", width: "full" }),
     { field: "primary_audio", type: "uuid", meta: { interface: "select-dropdown-m2o", width: "half" }, schema: { data_type: "uuid" } },
     { field: "examples", type: "alias", meta: { special: ["m2m"], interface: "list-m2m" } },
   ],
@@ -188,12 +231,12 @@ const fields: Record<string, FieldDefinition[]> = {
   reading_rules: [
     { field: "status", type: "string", meta: { interface: "select-dropdown", options: { choices: statusChoices }, width: "half" }, schema: { data_type: "varchar", max_length: 20, default_value: "draft", is_nullable: false } },
     { field: "slug", type: "string", meta: { interface: "input", width: "half" }, schema: { data_type: "varchar", max_length: 255, is_unique: true, is_nullable: false } },
-    { field: "title", type: "string", meta: { interface: "input", width: "full" }, schema: { data_type: "varchar", max_length: 255, is_nullable: false } },
-    { field: "rule_statement", type: "string", meta: { interface: "input", width: "full" }, schema: { data_type: "varchar", max_length: 255, is_nullable: false } },
-    { field: "explanation", type: "text", meta: { interface: "input-rich-text-html", width: "full" }, schema: { data_type: "text" } },
-    { field: "exceptions", type: "text", meta: { interface: "input-multiline", width: "half" }, schema: { data_type: "text" } },
-    { field: "limitations", type: "text", meta: { interface: "input-multiline", width: "half" }, schema: { data_type: "text" } },
-    { field: "practice_intro", type: "text", meta: { interface: "input-multiline", width: "full" }, schema: { data_type: "text" } },
+    ...localizedFieldDefinitions("title", { interface: "input", note: "Localized reading rule title", width: "full" }),
+    ...localizedFieldDefinitions("rule_statement", { interface: "input", note: "Localized rule statement", width: "full" }),
+    ...localizedFieldDefinitions("explanation", { interface: "input-rich-text-html", note: "Localized rule explanation", width: "full" }),
+    ...localizedFieldDefinitions("exceptions", { interface: "input-multiline", note: "Localized exceptions", width: "full" }),
+    ...localizedFieldDefinitions("limitations", { interface: "input-multiline", note: "Localized limitations", width: "full" }),
+    ...localizedFieldDefinitions("practice_intro", { interface: "input-multiline", note: "Localized practice intro", width: "full" }),
     { field: "examples", type: "alias", meta: { special: ["m2m"], interface: "list-m2m" } },
     { field: "reinforcement_exercises", type: "alias", meta: { special: ["m2m"], interface: "list-m2m" } },
   ],
@@ -210,9 +253,9 @@ const fields: Record<string, FieldDefinition[]> = {
   exercises: [
     { field: "status", type: "string", meta: { interface: "select-dropdown", options: { choices: statusChoices }, width: "half" }, schema: { data_type: "varchar", max_length: 20, default_value: "draft", is_nullable: false } },
     { field: "slug", type: "string", meta: { interface: "input", width: "half" }, schema: { data_type: "varchar", max_length: 255, is_unique: true, is_nullable: false } },
-    { field: "title", type: "string", meta: { interface: "input", width: "full" }, schema: { data_type: "varchar", max_length: 255, is_nullable: false } },
-    { field: "summary", type: "text", meta: { interface: "input-multiline", width: "full" }, schema: { data_type: "text" } },
-    { field: "instructions", type: "text", meta: { interface: "input-rich-text-html", width: "full" }, schema: { data_type: "text" } },
+    ...localizedFieldDefinitions("title", { interface: "input", note: "Localized exercise title", width: "full" }),
+    ...localizedFieldDefinitions("summary", { interface: "input-multiline", note: "Localized exercise summary", width: "full" }),
+    ...localizedFieldDefinitions("instructions", { interface: "input-rich-text-html", note: "Localized exercise instructions", width: "full" }),
     { field: "show_item_feedback", type: "boolean", meta: { interface: "boolean", width: "half" }, schema: { data_type: "boolean", default_value: true, is_nullable: false } },
     { field: "passing_score", type: "integer", meta: { interface: "slider", width: "half" }, schema: { data_type: "integer" } },
     { field: "items", type: "alias", meta: { special: ["o2m"], interface: "list-o2m" } },
@@ -221,16 +264,16 @@ const fields: Record<string, FieldDefinition[]> = {
     { field: "exercise", type: "uuid", meta: { interface: "select-dropdown-m2o", width: "half" }, schema: { data_type: "uuid", is_nullable: false } },
     { field: "sort", type: "integer", meta: { interface: "input", width: "half" }, schema: { data_type: "integer", default_value: 1, is_nullable: false } },
     { field: "type", type: "string", meta: { interface: "select-dropdown", options: { choices: exerciseTypeChoices }, width: "half" }, schema: { data_type: "varchar", max_length: 100, is_nullable: false } },
-    { field: "prompt", type: "text", meta: { interface: "input-multiline", width: "full" }, schema: { data_type: "text", is_nullable: false } },
-    { field: "prompt_note", type: "text", meta: { interface: "input-multiline", width: "full" }, schema: { data_type: "text" } },
+    ...localizedFieldDefinitions("prompt", { interface: "input-multiline", note: "Localized exercise prompt", width: "full" }),
+    ...localizedFieldDefinitions("prompt_note", { interface: "input-multiline", note: "Localized prompt note", width: "full" }),
     { field: "prompt_symbol", type: "string", meta: { interface: "input", width: "half" }, schema: { data_type: "varchar", max_length: 255 } },
     { field: "prompt_word", type: "string", meta: { interface: "input", width: "half" }, schema: { data_type: "varchar", max_length: 255 } },
     { field: "prompt_transcription", type: "string", meta: { interface: "input", width: "half" }, schema: { data_type: "varchar", max_length: 255 } },
     { field: "prompt_audio", type: "uuid", meta: { interface: "select-dropdown-m2o", width: "half" }, schema: { data_type: "uuid" } },
     { field: "linked_example_word", type: "uuid", meta: { interface: "select-dropdown-m2o", width: "half" }, schema: { data_type: "uuid" } },
-    { field: "options", type: "json", meta: { interface: "input-code", options: { template: "json" }, width: "full" }, schema: { data_type: "json", is_nullable: false } },
+    { field: "options", type: "json", meta: { interface: "input-code", options: { template: "json" }, width: "full", note: "Use label_en and label_ru in each option for bilingual display text." }, schema: { data_type: "json", is_nullable: false } },
     { field: "correct_option_ids", type: "json", meta: { interface: "tags", width: "full" }, schema: { data_type: "json", is_nullable: false } },
-    { field: "explanation", type: "text", meta: { interface: "input-multiline", width: "full" }, schema: { data_type: "text" } },
+    ...localizedFieldDefinitions("explanation", { interface: "input-multiline", note: "Localized answer explanation", width: "full" }),
   ],
 };
 
@@ -417,7 +460,7 @@ function buildRelation(definition: RelationDefinition): SnapshotRelation {
   };
 }
 
-function buildSnapshot(base: Snapshot): Snapshot {
+function buildSnapshot(base: Snapshot, includeGeneratedIdFields: boolean): Snapshot {
   return {
     version: base.version,
     directus: base.directus,
@@ -427,12 +470,20 @@ function buildSnapshot(base: Snapshot): Snapshot {
       meta: baseCollectionMeta({ collection: definition.collection, ...definition.meta }),
       schema: { name: definition.collection },
     })),
-    fields: collections.flatMap((collection) => [
-      idField(collection.collection),
-      ...(fields[collection.collection] ?? []).map((definition) =>
-        buildField(collection.collection, definition),
-      ),
-    ]),
+    fields: collections.flatMap((collection) => {
+      const existingIdField = base.fields.find(
+        (field) => field.collection === collection.collection && field.field === "id",
+      );
+
+      return [
+        includeGeneratedIdFields
+          ? idField(collection.collection)
+          : existingIdField ?? idField(collection.collection),
+        ...(fields[collection.collection] ?? []).map((definition) =>
+          buildField(collection.collection, definition),
+        ),
+      ];
+    }),
     relations: relations.map(buildRelation),
   };
 }
@@ -555,37 +606,32 @@ async function ensurePermission(
 async function main() {
   const token = await getAdminToken();
   const current = await directusRequest<{ data: Snapshot }>(token, "/schema/snapshot");
-  const desired = buildSnapshot(current.data);
   const schemaAlreadyApplied = current.data.collections.some(
     (collection) => collection.collection === "courses" && collection.schema !== null,
   );
+  const desired = buildSnapshot(current.data, !schemaAlreadyApplied);
+  const snapshotPath = "/tmp/phonora-schema.json";
+  await Bun.write(snapshotPath, JSON.stringify(desired, null, 2));
 
-  if (!schemaAlreadyApplied) {
-    const snapshotPath = "/tmp/phonora-schema.json";
-    await Bun.write(snapshotPath, JSON.stringify(desired, null, 2));
+  console.log("Copying schema snapshot into Directus container");
+  let result = Bun.spawnSync(["docker", "cp", snapshotPath, "phonora-directus:/tmp/phonora-schema.json"], {
+    stdout: "inherit",
+    stderr: "inherit",
+  });
+  if (result.exitCode !== 0) {
+    throw new Error(`docker cp failed with exit code ${result.exitCode}`);
+  }
 
-    console.log("Copying schema snapshot into Directus container");
-    let result = Bun.spawnSync(["docker", "cp", snapshotPath, "phonora-directus:/tmp/phonora-schema.json"], {
+  console.log("Applying schema snapshot through Directus CLI");
+  result = Bun.spawnSync(
+    ["docker", "compose", "exec", "-T", "directus", "npx", "directus", "schema", "apply", "/tmp/phonora-schema.json", "-y"],
+    {
       stdout: "inherit",
       stderr: "inherit",
-    });
-    if (result.exitCode !== 0) {
-      throw new Error(`docker cp failed with exit code ${result.exitCode}`);
-    }
-
-    console.log("Applying schema snapshot through Directus CLI");
-    result = Bun.spawnSync(
-      ["docker", "compose", "exec", "-T", "directus", "npx", "directus", "schema", "apply", "/tmp/phonora-schema.json", "-y"],
-      {
-        stdout: "inherit",
-        stderr: "inherit",
-      },
-    );
-    if (result.exitCode !== 0) {
-      throw new Error(`directus schema apply failed with exit code ${result.exitCode}`);
-    }
-  } else {
-    console.log("Schema already applied, skipping snapshot apply.");
+    },
+  );
+  if (result.exitCode !== 0) {
+    throw new Error(`directus schema apply failed with exit code ${result.exitCode}`);
   }
 
   const roleIds = new Map<string, string>();

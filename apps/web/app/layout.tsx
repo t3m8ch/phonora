@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { Inter, JetBrains_Mono } from "next/font/google";
+
+import { SiteHeader } from "@/components/SiteHeader";
 
 import "./globals.css";
 
@@ -16,7 +17,6 @@ const mono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: "Phonora",
-  description: "Learn English phonetics, transcription, and reading rules with structured audio practice.",
 };
 
 export default function RootLayout({
@@ -28,18 +28,7 @@ export default function RootLayout({
     <html lang="en" className={`${inter.variable} ${mono.variable}`}>
       <body>
         <div className="shell">
-          <header className="siteHeader">
-            <Link href="/" className="brand">
-              <span className="brandMark">Ph</span>
-              <span>
-                <strong>Phonora</strong>
-                <small>English phonetics trainer</small>
-              </span>
-            </Link>
-            <nav className="siteNav">
-              <Link href="/">Course</Link>
-            </nav>
-          </header>
+          <SiteHeader />
           <main className="pageContainer">{children}</main>
         </div>
       </body>

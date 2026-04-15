@@ -11,11 +11,27 @@ import {
 } from "./directus-utils";
 
 type SeedData = typeof import("../cms/seed-data/phonora-mvp.json");
-
+type LocalizedText = { en: string; ru: string };
 type IdMap = Map<string, string>;
 
 const seedPath = path.join(process.cwd(), "cms/seed-data/phonora-mvp.json");
 const seedData = (await Bun.file(seedPath).json()) as SeedData;
+
+const localizedTextFields = (field: string, value?: LocalizedText | null) => {
+  if (!value) {
+    return {};
+  }
+
+  return {
+    [`${field}_en`]: value.en,
+    [`${field}_ru`]: value.ru,
+  };
+};
+
+const localizedOptionLabel = (value: LocalizedText) => ({
+  label_en: value.en,
+  label_ru: value.ru,
+});
 
 async function findOneByField(
   token: string,
@@ -40,7 +56,7 @@ async function findOneByField(
 async function ensureFile(token: string, asset: SeedData["audioAssets"][number]) {
   const existingFiles = await directusRequest<{ data: Array<{ id: string }> }>(
     token,
-    `/files?filter[title][_eq]=${encodeURIComponent(asset.title)}&limit=1`,
+    `/files?filter[title][_eq]=${encodeURIComponent(asset.title.en)}&limit=1`,
   );
   const existing = existingFiles.data[0];
   if (existing) {
@@ -50,7 +66,7 @@ async function ensureFile(token: string, asset: SeedData["audioAssets"][number])
   const uploaded = await directusUpload(
     token,
     path.join(process.cwd(), "cms/assets", asset.file),
-    asset.title,
+    asset.title.en,
   );
 
   return uploaded.data.id;
@@ -89,8 +105,8 @@ async function ensureExerciseItem(
     exercise: exerciseId,
     sort: item.sort,
     type: item.type,
-    prompt: item.prompt,
-    prompt_note: item.prompt_note ?? null,
+    ...localizedTextFields("prompt", item.prompt),
+    ...localizedTextFields("prompt_note", item.prompt_note ?? null),
     prompt_symbol: item.prompt_symbol ?? null,
     prompt_word: item.prompt_word ?? null,
     prompt_transcription: item.prompt_transcription ?? null,
@@ -99,11 +115,16 @@ async function ensureExerciseItem(
       ? exampleMap.get(item.linked_example_word)
       : null,
     options: item.options.map((option) => ({
-      ...option,
+      id: option.id,
+      ...localizedOptionLabel(option.label),
+      value: option.value ?? null,
+      word: option.word ?? null,
+      transcription: option.transcription ?? null,
+      symbol: option.symbol ?? null,
       audio_asset_id: option.audio_asset_id ? audioMap.get(option.audio_asset_id) : null,
     })),
     correct_option_ids: item.correct_option_ids,
-    explanation: item.explanation ?? null,
+    ...localizedTextFields("explanation", item.explanation ?? null),
   };
 
   if (existing && String(existing.exercise) === String(exerciseId)) {
@@ -127,18 +148,23 @@ async function main() {
 
   console.log("Seeding course");
   const course = await upsertByUnique(token, "courses", "slug", seedData.course.slug, {
-    ...seedData.course,
     status: "published",
+    slug: seedData.course.slug,
+    ...localizedTextFields("title", seedData.course.title),
+    ...localizedTextFields("summary", seedData.course.summary),
+    ...localizedTextFields("description", seedData.course.description),
+    ...localizedTextFields("hero_headline", seedData.course.hero_headline),
+    ...localizedTextFields("hero_subheadline", seedData.course.hero_subheadline),
   });
   const courseId = String(course.data.id);
 
   console.log("Uploading audio files and audio asset records");
   for (const asset of seedData.audioAssets) {
     const fileId = await ensureFile(token, asset);
-    const record = await upsertByUnique(token, "audio_assets", "title", asset.title, {
+    const record = await upsertByUnique(token, "audio_assets", "title_en", asset.title.en, {
       status: "published",
-      title: asset.title,
-      description: asset.description,
+      ...localizedTextFields("title", asset.title),
+      ...localizedTextFields("description", asset.description),
       transcript: asset.transcript,
       phonetic_focus: asset.phonetic_focus,
       license_note: "Generated project placeholder audio",
@@ -153,8 +179,8 @@ async function main() {
       status: "published",
       word: word.word,
       transcription: word.transcription,
-      translation: word.translation,
-      note: word.note,
+      ...localizedTextFields("translation", word.translation),
+      ...localizedTextFields("note", word.note),
       primary_audio: word.primary_audio ? audioMap.get(word.primary_audio) : null,
     });
     exampleMap.set(word.key, String(record.data.id));
@@ -166,9 +192,9 @@ async function main() {
       status: "published",
       course: courseId,
       slug: module.slug,
-      title: module.title,
-      summary: module.summary,
-      theme_label: module.theme_label,
+      ...localizedTextFields("title", module.title),
+      ...localizedTextFields("summary", module.summary),
+      ...localizedTextFields("theme_label", module.theme_label),
       order: module.order,
     });
     moduleMap.set(module.key, String(record.data.id));
@@ -180,12 +206,12 @@ async function main() {
       status: "published",
       slug: symbol.slug,
       symbol: symbol.symbol,
-      title: symbol.title,
-      sound_type: symbol.sound_type,
-      explanation: symbol.explanation,
-      stress_note: symbol.stress_note,
-      common_mistakes: symbol.common_mistakes,
-      comparison_note: symbol.comparison_note,
+      ...localizedTextFields("title", symbol.title),
+      ...localizedTextFields("sound_type", symbol.sound_type),
+      ...localizedTextFields("explanation", symbol.explanation),
+      ...localizedTextFields("stress_note", symbol.stress_note),
+      ...localizedTextFields("common_mistakes", symbol.common_mistakes),
+      ...localizedTextFields("comparison_note", symbol.comparison_note),
       primary_audio: symbol.primary_audio ? audioMap.get(symbol.primary_audio) : null,
     });
     const symbolId = String(record.data.id);
@@ -206,11 +232,11 @@ async function main() {
       status: "published",
       slug: combination.slug,
       combination_text: combination.combination_text,
-      title: combination.title,
-      explanation: combination.explanation,
-      stress_note: combination.stress_note,
-      common_mistakes: combination.common_mistakes,
-      comparison_note: combination.comparison_note,
+      ...localizedTextFields("title", combination.title),
+      ...localizedTextFields("explanation", combination.explanation),
+      ...localizedTextFields("stress_note", combination.stress_note),
+      ...localizedTextFields("common_mistakes", combination.common_mistakes),
+      ...localizedTextFields("comparison_note", combination.comparison_note),
       primary_audio: combination.primary_audio
         ? audioMap.get(combination.primary_audio)
         : null,
@@ -232,9 +258,9 @@ async function main() {
     const record = await upsertByUnique(token, "exercises", "slug", exercise.slug, {
       status: "published",
       slug: exercise.slug,
-      title: exercise.title,
-      summary: exercise.summary,
-      instructions: exercise.instructions,
+      ...localizedTextFields("title", exercise.title),
+      ...localizedTextFields("summary", exercise.summary),
+      ...localizedTextFields("instructions", exercise.instructions),
       show_item_feedback: exercise.show_item_feedback,
       passing_score: exercise.passing_score,
     });
@@ -251,12 +277,12 @@ async function main() {
     const record = await upsertByUnique(token, "reading_rules", "slug", rule.slug, {
       status: "published",
       slug: rule.slug,
-      title: rule.title,
-      rule_statement: rule.rule_statement,
-      explanation: rule.explanation,
-      exceptions: rule.exceptions,
-      limitations: rule.limitations,
-      practice_intro: rule.practice_intro,
+      ...localizedTextFields("title", rule.title),
+      ...localizedTextFields("rule_statement", rule.rule_statement),
+      ...localizedTextFields("explanation", rule.explanation),
+      ...localizedTextFields("exceptions", rule.exceptions),
+      ...localizedTextFields("limitations", rule.limitations),
+      ...localizedTextFields("practice_intro", rule.practice_intro),
     });
     const ruleId = String(record.data.id);
     ruleMap.set(rule.key, ruleId);
@@ -285,8 +311,8 @@ async function main() {
       visibility: "visible",
       module: moduleMap.get(lesson.module),
       slug: lesson.slug,
-      title: lesson.title,
-      description: lesson.description,
+      ...localizedTextFields("title", lesson.title),
+      ...localizedTextFields("description", lesson.description),
       lesson_type: lesson.lesson_type,
       order: lesson.order,
       estimated_minutes: lesson.estimated_minutes,

@@ -18,6 +18,11 @@ function assert(condition: unknown, message: string): asserts condition {
   }
 }
 
+const localizedText = (field: string, en: string, ru: string) => ({
+  [`${field}_en`]: en,
+  [`${field}_ru`]: ru,
+});
+
 async function publicJson(pathname: string) {
   const response = await fetch(`${directusUrl}${pathname}`);
   if (!response.ok) {
@@ -26,12 +31,16 @@ async function publicJson(pathname: string) {
   return response.json();
 }
 
-async function webHtml(pathname: string) {
-  const response = await fetch(`${webUrl}${pathname}`);
+async function webHtml(pathname: string, init?: RequestInit) {
+  const response = await fetch(`${webUrl}${pathname}`, init);
   if (!response.ok) {
     throw new Error(`Web fetch failed for ${pathname}: ${response.status}`);
   }
   return response.text();
+}
+
+async function webResponse(pathname: string, init?: RequestInit) {
+  return fetch(`${webUrl}${pathname}`, init);
 }
 
 async function main() {
@@ -71,8 +80,12 @@ async function main() {
 
   const tempAudioAsset = await createItem(token, "audio_assets", {
     status: "published",
-    title: `Smoke audio asset ${suffix}`,
-    description: "Created during smoke verification.",
+    ...localizedText("title", `Smoke audio asset ${suffix}`, `Тестовый аудиоресурс ${suffix}`),
+    ...localizedText(
+      "description",
+      "Created during smoke verification.",
+      "Создано во время smoke-проверки.",
+    ),
     transcript: "/ɪ/",
     phonetic_focus: "smoke-check",
     license_note: "Smoke check",
@@ -80,7 +93,11 @@ async function main() {
   });
 
   await updateItem(token, "audio_assets", String(tempAudioAsset.data.id), {
-    description: "Updated during smoke verification.",
+    ...localizedText(
+      "description",
+      "Updated during smoke verification.",
+      "Обновлено во время smoke-проверки.",
+    ),
   });
 
   const tempLessonBlock = await createItem(token, "lesson_blocks", {
@@ -88,8 +105,12 @@ async function main() {
     visibility: "hidden",
     module: module.id,
     slug: `smoke-hidden-${suffix}`,
-    title: "Smoke hidden lesson",
-    description: "Temporary lesson used to verify publish/hide/order flows.",
+    ...localizedText("title", "Smoke hidden lesson", "Скрытый smoke-урок"),
+    ...localizedText(
+      "description",
+      "Temporary lesson used to verify publish/hide/order flows.",
+      "Временный урок для проверки публикации, скрытия и порядка.",
+    ),
     lesson_type: "exercise",
     order: 99,
     estimated_minutes: 1,
@@ -104,7 +125,7 @@ async function main() {
   await updateItem(token, "lesson_blocks", String(tempLessonBlock.data.id), {
     visibility: "visible",
     order: 2,
-    title: "Smoke visible lesson",
+    ...localizedText("title", "Smoke visible lesson", "Видимый smoke-урок"),
   });
 
   const visiblePublic = await publicJson(
@@ -112,25 +133,37 @@ async function main() {
   );
   assert(visiblePublic.data.length === 1, "Visible lesson block did not appear in public API");
 
-  const home = await webHtml("/");
-  assert(home.includes("Learn to read English pronunciation without guessing."), "Home page hero missing");
-  assert(home.includes("Individual phonetic symbols"), "Home page module listing missing");
+  const rootRu = await webResponse("/", {
+    redirect: "manual",
+    headers: { "accept-language": "ru-RU,ru;q=0.9" },
+  });
+  assert(rootRu.status >= 300 && rootRu.status < 400, "Root should redirect to a locale path");
+  assert(rootRu.headers.get("location") === "/ru", "Root redirect should respect Russian preference");
 
-  const modulePage = await webHtml("/modules/practice-lab");
-  assert(modulePage.includes("Mixed listening and reading drill"), "Module page lesson listing missing");
+  const homeEn = await webHtml("/en");
+  assert(homeEn.includes("Learn to read English pronunciation without guessing."), "English home hero missing");
+  assert(homeEn.includes("Individual phonetic symbols"), "English home module listing missing");
 
-  const symbolLesson = await webHtml("/learn/phonetic-symbols/short-i-symbol");
-  assert(symbolLesson.includes("How it sounds"), "Phonetic symbol lesson content missing");
-  assert(symbolLesson.includes("ship"), "Phonetic symbol examples missing");
-  assert(symbolLesson.includes("audio controls"), "Phonetic symbol lesson should include audio controls");
+  const homeRu = await webHtml("/ru");
+  assert(homeRu.includes("Научитесь читать английское произношение без догадок."), "Russian home hero missing");
+  assert(homeRu.includes("Отдельные фонетические символы"), "Russian home module listing missing");
+  assert(homeRu.includes("Русский"), "Language switcher missing on Russian home page");
 
-  const ruleLesson = await webHtml("/learn/reading-rules/magic-e-rule");
-  assert(ruleLesson.includes("Rule statement"), "Reading rule lesson content missing");
-  assert(ruleLesson.includes("Reinforcement"), "Reading rule reinforcement section missing");
+  const modulePageRu = await webHtml("/ru/modules/practice-lab");
+  assert(modulePageRu.includes("Смешанная тренировка на аудирование и чтение"), "Russian module page lesson listing missing");
 
-  const exerciseLesson = await webHtml("/learn/practice-lab/mvp-drill");
-  assert(exerciseLesson.includes("MVP phonetics drill"), "Exercise page title missing");
-  assert(exerciseLesson.includes("Check answers"), "Exercise controls missing");
+  const symbolLessonRu = await webHtml("/ru/learn/phonetic-symbols/short-i-symbol");
+  assert(symbolLessonRu.includes("Как это звучит"), "Russian phonetic symbol lesson content missing");
+  assert(symbolLessonRu.includes("корабль"), "Russian phonetic symbol examples missing");
+  assert(symbolLessonRu.includes("audio controls"), "Phonetic symbol lesson should include audio controls");
+
+  const ruleLessonEn = await webHtml("/en/learn/reading-rules/magic-e-rule");
+  assert(ruleLessonEn.includes("Rule statement"), "English reading rule lesson content missing");
+  assert(ruleLessonEn.includes("Reinforcement"), "English reading rule reinforcement section missing");
+
+  const exerciseLessonRu = await webHtml("/ru/learn/practice-lab/mvp-drill");
+  assert(exerciseLessonRu.includes("MVP-тренировка по фонетике"), "Russian exercise page title missing");
+  assert(exerciseLessonRu.includes("Проверить ответы"), "Russian exercise controls missing");
 
   const publicCourse = await publicJson(`/items/courses?filter[slug][_eq]=phonora-mvp`);
   assert(publicCourse.data.length === 1, "Published course unavailable through public API");

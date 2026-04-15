@@ -1,33 +1,19 @@
-import { CourseHero } from "@/components/CourseHero";
-import { EmptyState } from "@/components/EmptyState";
-import { ModuleCard } from "@/components/ModuleCard";
-import { getCourseOverview } from "@/lib/content";
+import { cookies, headers } from "next/headers";
+import { redirect } from "next/navigation";
 
-export const dynamic = "force-dynamic";
+import {
+  PREFERRED_LOCALE_COOKIE,
+  resolveRequestLocale,
+} from "@/lib/i18n";
+import { coursePath } from "@/lib/routes";
 
-export default async function HomePage() {
-  const course = await getCourseOverview();
-
-  if (!course) {
-    return (
-      <EmptyState
-        title="Connect Directus to load the course"
-        body="Phonora reads published content from Directus. Start the local stack, bootstrap the schema, and seed starter content to see the learning path here."
-        actionHref="https://directus.io/"
-        actionLabel="Open Directus docs"
-      />
-    );
-  }
-
-  return (
-    <div className="stack-xl">
-      <CourseHero course={course} />
-
-      <section className="grid courseGrid">
-        {course.modules.map((module) => (
-          <ModuleCard key={module.id} module={module} />
-        ))}
-      </section>
-    </div>
+export default async function RootRedirectPage() {
+  const cookieStore = await cookies();
+  const headerStore = await headers();
+  const locale = resolveRequestLocale(
+    cookieStore.get(PREFERRED_LOCALE_COOKIE)?.value,
+    headerStore.get("accept-language"),
   );
+
+  redirect(coursePath(locale));
 }
