@@ -1,0 +1,346 @@
+{
+  "course": {
+    "slug": "phonora-mvp",
+    "title": "Phonora",
+    "summary": "A guided path from phonetic symbols to reading rules.",
+    "description": "Phonora helps learners recognise phonetic symbols, hear sound contrasts, and connect transcription with reading rules.",
+    "hero_headline": "Learn to read English pronunciation without guessing.",
+    "hero_subheadline": "Move from symbols to combinations to reading rules with audio, examples, and focused exercises."
+  },
+  "modules": [
+    {
+      "key": "symbols",
+      "slug": "phonetic-symbols",
+      "title": "Individual phonetic symbols",
+      "summary": "Meet the core vowel and consonant symbols, hear them clearly, and compare them with nearby sounds.",
+      "theme_label": "Foundations",
+      "order": 1
+    },
+    {
+      "key": "combinations",
+      "slug": "sound-combinations",
+      "title": "Sound combinations and diphthongs",
+      "summary": "Study how sounds combine and how those combinations differ from similar patterns.",
+      "theme_label": "Combinations",
+      "order": 2
+    },
+    {
+      "key": "rules",
+      "slug": "reading-rules",
+      "title": "Reading rules",
+      "summary": "Connect spelling patterns, transcription, and pronunciation through reusable examples.",
+      "theme_label": "Reading",
+      "order": 3
+    },
+    {
+      "key": "practice",
+      "slug": "practice-lab",
+      "title": "Practice lab",
+      "summary": "Use mixed exercises to reinforce symbols, audio recognition, stress, and rule application.",
+      "theme_label": "Practice",
+      "order": 4
+    }
+  ],
+  "audioAssets": [
+    {
+      "key": "short-i-symbol",
+      "title": "Short i symbol",
+      "description": "Placeholder audio for /ɪ/.",
+      "transcript": "/ɪ/",
+      "phonetic_focus": "short-i",
+      "file": "short-i-symbol.wav"
+    },
+    {
+      "key": "ship-word",
+      "title": "Ship",
+      "description": "Example pronunciation for ship.",
+      "transcript": "ship",
+      "phonetic_focus": "short-i",
+      "file": "ship-word.wav"
+    },
+    {
+      "key": "ai-diphthong",
+      "title": "Diphthong /eɪ/",
+      "description": "Placeholder audio for /eɪ/.",
+      "transcript": "/eɪ/",
+      "phonetic_focus": "ay",
+      "file": "ai-diphthong.wav"
+    },
+    {
+      "key": "day-word",
+      "title": "Day",
+      "description": "Example pronunciation for day.",
+      "transcript": "day",
+      "phonetic_focus": "ay",
+      "file": "day-word.wav"
+    },
+    {
+      "key": "magic-e-rule",
+      "title": "Magic e rule",
+      "description": "Rule introduction audio.",
+      "transcript": "magic e",
+      "phonetic_focus": "silent-e",
+      "file": "magic-e-rule.wav"
+    },
+    {
+      "key": "made-word",
+      "title": "Made",
+      "description": "Example pronunciation for made.",
+      "transcript": "made",
+      "phonetic_focus": "silent-e",
+      "file": "made-word.wav"
+    },
+    {
+      "key": "audio-choice-a",
+      "title": "Audio option A",
+      "description": "Exercise audio option A.",
+      "transcript": "/eɪ/",
+      "phonetic_focus": "exercise",
+      "file": "audio-choice-a.wav"
+    },
+    {
+      "key": "audio-choice-b",
+      "title": "Audio option B",
+      "description": "Exercise audio option B.",
+      "transcript": "/ɪ/",
+      "phonetic_focus": "exercise",
+      "file": "audio-choice-b.wav"
+    }
+  ],
+  "exampleWords": [
+    {
+      "key": "ship",
+      "word": "ship",
+      "transcription": "/ʃɪp/",
+      "translation": "корабль",
+      "note": "Short /ɪ/ in a closed syllable.",
+      "primary_audio": "ship-word"
+    },
+    {
+      "key": "sit",
+      "word": "sit",
+      "transcription": "/sɪt/",
+      "translation": "сидеть",
+      "note": "Another common short /ɪ/ example.",
+      "primary_audio": "short-i-symbol"
+    },
+    {
+      "key": "day",
+      "word": "day",
+      "transcription": "/deɪ/",
+      "translation": "день",
+      "note": "Classic /eɪ/ diphthong.",
+      "primary_audio": "day-word"
+    },
+    {
+      "key": "cake",
+      "word": "cake",
+      "transcription": "/keɪk/",
+      "translation": "торт",
+      "note": "The final e changes the vowel sound.",
+      "primary_audio": "magic-e-rule"
+    },
+    {
+      "key": "made",
+      "word": "made",
+      "transcription": "/meɪd/",
+      "translation": "сделал",
+      "note": "Long vowel produced by the final e pattern.",
+      "primary_audio": "made-word"
+    },
+    {
+      "key": "mad",
+      "word": "mad",
+      "transcription": "/mæd/",
+      "translation": "злой",
+      "note": "No final e, so the vowel stays short.",
+      "primary_audio": "made-word"
+    }
+  ],
+  "phoneticSymbols": [
+    {
+      "key": "short-i",
+      "slug": "short-i",
+      "symbol": "/ɪ/",
+      "title": "Short i sound",
+      "sound_type": "Short vowel",
+      "explanation": "The /ɪ/ sound is short, relaxed, and common in words such as ship and sit.",
+      "stress_note": "In unstressed syllables it may weaken further, so learners often over-pronounce it.",
+      "common_mistakes": "Learners often confuse /ɪ/ with /iː/ and make it too long.",
+      "comparison_note": "Compare ship /ʃɪp/ with sheep /ʃiːp/ to hear length and tongue position differences.",
+      "primary_audio": "short-i-symbol",
+      "example_keys": ["ship", "sit"]
+    }
+  ],
+  "soundCombinations": [
+    {
+      "key": "ay-diphthong",
+      "slug": "ay-diphthong",
+      "combination_text": "/eɪ/",
+      "title": "Diphthong /eɪ/",
+      "explanation": "This diphthong begins near /e/ and glides toward /ɪ/, as in day and cake.",
+      "stress_note": "In stressed syllables the glide is clearer; rushed speech can shorten it.",
+      "common_mistakes": "Learners may replace the glide with a flat /e/ sound.",
+      "comparison_note": "Compare /eɪ/ in day with /æ/ in dad to hear the glide clearly.",
+      "primary_audio": "ai-diphthong",
+      "example_keys": ["day", "cake"]
+    }
+  ],
+  "readingRules": [
+    {
+      "key": "magic-e",
+      "slug": "magic-e",
+      "title": "Final e changes the vowel",
+      "rule_statement": "When a word ends with silent e, the earlier vowel often says its name.",
+      "explanation": "In many one-syllable words, a final silent e changes a short vowel into a long vowel or diphthong pattern.",
+      "exceptions": "This pattern is common but not universal; borrowed words and irregular spellings may break it.",
+      "limitations": "Treat it as a useful pattern, not a perfect law. Always confirm with transcription when possible.",
+      "practice_intro": "Try the linked exercise to decide when final e changes the vowel sound.",
+      "example_keys": ["made", "cake", "mad"],
+      "reinforcement_exercise_keys": ["mvp-drill"]
+    }
+  ],
+  "exercises": [
+    {
+      "key": "mvp-drill",
+      "slug": "mvp-drill",
+      "title": "MVP phonetics drill",
+      "summary": "A mixed practice set covering audio recognition, transcription, stress, and reading rules.",
+      "instructions": "Complete each item and use the explanations to compare sounds, stress, and spelling patterns.",
+      "show_item_feedback": true,
+      "passing_score": 70,
+      "items": [
+        {
+          "sort": 1,
+          "type": "audio_to_symbol",
+          "prompt": "Which symbol matches the sound you hear?",
+          "prompt_audio": "short-i-symbol",
+          "options": [
+            { "id": "audio-symbol-1", "label": "Option A", "symbol": "/ɪ/" },
+            { "id": "audio-symbol-2", "label": "Option B", "symbol": "/iː/" },
+            { "id": "audio-symbol-3", "label": "Option C", "symbol": "/eɪ/" }
+          ],
+          "correct_option_ids": ["audio-symbol-1"],
+          "explanation": "The recording targets the short /ɪ/ sound."
+        },
+        {
+          "sort": 2,
+          "type": "symbol_to_audio",
+          "prompt": "Which audio option matches the symbol below?",
+          "prompt_symbol": "/eɪ/",
+          "options": [
+            { "id": "symbol-audio-1", "label": "Audio option A", "audio_asset_id": "audio-choice-a" },
+            { "id": "symbol-audio-2", "label": "Audio option B", "audio_asset_id": "audio-choice-b" }
+          ],
+          "correct_option_ids": ["symbol-audio-1"],
+          "explanation": "The /eɪ/ diphthong glides toward /ɪ/, represented by audio option A."
+        },
+        {
+          "sort": 3,
+          "type": "symbol_to_word",
+          "prompt": "Choose the word that contains the target sound.",
+          "prompt_symbol": "/ɪ/",
+          "options": [
+            { "id": "symbol-word-1", "label": "Ship", "word": "ship" },
+            { "id": "symbol-word-2", "label": "Sheep", "word": "sheep" },
+            { "id": "symbol-word-3", "label": "Cake", "word": "cake" }
+          ],
+          "correct_option_ids": ["symbol-word-1"],
+          "explanation": "Ship contains /ɪ/, while sheep has /iː/."
+        },
+        {
+          "sort": 4,
+          "type": "transcription_to_word",
+          "prompt": "Which word matches this transcription?",
+          "prompt_transcription": "/meɪd/",
+          "options": [
+            { "id": "trans-word-1", "label": "mad", "word": "mad" },
+            { "id": "trans-word-2", "label": "made", "word": "made" },
+            { "id": "trans-word-3", "label": "mid", "word": "mid" }
+          ],
+          "correct_option_ids": ["trans-word-2"],
+          "explanation": "The transcription /meɪd/ matches made."
+        },
+        {
+          "sort": 5,
+          "type": "stress_selection",
+          "prompt": "Choose the item with stress on the second syllable.",
+          "options": [
+            { "id": "stress-1", "label": "REcord" },
+            { "id": "stress-2", "label": "reCORD" },
+            { "id": "stress-3", "label": "PHOtograph" }
+          ],
+          "correct_option_ids": ["stress-2"],
+          "explanation": "reCORD places the main stress on the second syllable."
+        },
+        {
+          "sort": 6,
+          "type": "similar_sound_discrimination",
+          "prompt": "Which option contains /ɪ/ rather than /iː/?",
+          "options": [
+            { "id": "contrast-1", "label": "ship", "word": "ship" },
+            { "id": "contrast-2", "label": "sheep", "word": "sheep" },
+            { "id": "contrast-3", "label": "seat", "word": "seat" }
+          ],
+          "correct_option_ids": ["contrast-1"],
+          "explanation": "Ship contains /ɪ/; sheep and seat use a longer vowel.",
+          "linked_example_word": "ship"
+        },
+        {
+          "sort": 7,
+          "type": "reading_rule_application",
+          "prompt": "Which word shows the final-e reading pattern?",
+          "options": [
+            { "id": "rule-1", "label": "cape", "word": "cape" },
+            { "id": "rule-2", "label": "cap", "word": "cap" },
+            { "id": "rule-3", "label": "bag", "word": "bag" }
+          ],
+          "correct_option_ids": ["rule-1"],
+          "explanation": "The final e in cape changes the vowel sound compared with cap."
+        }
+      ]
+    }
+  ],
+  "lessonBlocks": [
+    {
+      "module": "symbols",
+      "slug": "short-i-symbol",
+      "title": "Meet /ɪ/",
+      "description": "Study the short i sound and hear it in common words.",
+      "lesson_type": "phonetic_symbol",
+      "order": 1,
+      "estimated_minutes": 7,
+      "phonetic_symbol": "short-i"
+    },
+    {
+      "module": "combinations",
+      "slug": "ay-diphthong",
+      "title": "Hear /eɪ/ as a diphthong",
+      "description": "Learn how the /eɪ/ glide behaves in words such as day and cake.",
+      "lesson_type": "sound_combination",
+      "order": 1,
+      "estimated_minutes": 6,
+      "sound_combination": "ay-diphthong"
+    },
+    {
+      "module": "rules",
+      "slug": "magic-e-rule",
+      "title": "Use final e to predict vowel sound",
+      "description": "Connect the silent-e pattern to transcription and pronunciation.",
+      "lesson_type": "reading_rule",
+      "order": 1,
+      "estimated_minutes": 8,
+      "reading_rule": "magic-e"
+    },
+    {
+      "module": "practice",
+      "slug": "mvp-drill",
+      "title": "Mixed listening and reading drill",
+      "description": "Review symbols, combinations, stress, and reading rules in one exercise lesson.",
+      "lesson_type": "exercise",
+      "order": 1,
+      "estimated_minutes": 10,
+      "exercise": "mvp-drill"
+    }
+  ]
+}

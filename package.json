@@ -1,0 +1,19 @@
+{
+  "name": "phonora",
+  "private": true,
+  "packageManager": "bun@1.3.11",
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "bun run --cwd apps/web dev",
+    "build": "bun run --cwd apps/web build",
+    "start": "bun run --cwd apps/web start",
+    "lint": "bun run --cwd apps/web lint",
+    "verify": "bun run lint && bun run build",
+    "cms:setup": "bun run scripts/directus-bootstrap.ts",
+    "cms:seed": "bun run scripts/directus-seed.ts",
+    "cms:bootstrap": "bun run scripts/directus-bootstrap.ts && bun run scripts/directus-seed.ts",
+    "qa:smoke": "bun run scripts/smoke-check.ts"
+  }
+}
