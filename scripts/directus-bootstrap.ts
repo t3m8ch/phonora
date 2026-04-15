@@ -123,7 +123,7 @@ const localizedFieldDefinitions = (
 };
 
 const collections: CollectionDefinition[] = [
-  { collection: "courses", meta: { icon: "school", note: "Top-level course configuration for Phonora." } },
+  { collection: "courses", meta: { icon: "school", note: "Singleton course configuration for the Phonora site.", singleton: true } },
   { collection: "modules", meta: { icon: "view_list", note: "Ordered modules within a course." } },
   { collection: "lesson_blocks", meta: { icon: "dashboard_customize", note: "Ordered public learning blocks inside a module." } },
   { collection: "audio_assets", meta: { icon: "audio_file", note: "Reusable audio records that point to Directus files." } },
@@ -603,6 +603,42 @@ async function ensurePermission(
   });
 }
 
+async function ensureSingletonCourse(token: string) {
+  try {
+    const existing = await directusRequest<{ data: { id?: string } }>(
+      token,
+      "/items/courses?fields=id",
+    );
+
+    if (existing.data.id) {
+      return existing.data.id;
+    }
+  } catch {
+    // No singleton record exists yet.
+  }
+
+  const defaultSlug = process.env.PHONORA_SINGLETON_COURSE_SLUG ?? "phonora";
+  const response = await directusRequest<{ data: { id?: string } }>(token, "/items/courses", {
+    method: "PATCH",
+    body: JSON.stringify({
+      status: "published",
+      slug: defaultSlug,
+      title_en: "Phonora",
+      title_ru: "Phonora",
+      summary_en: "The main Phonora course shell.",
+      summary_ru: "Основная оболочка курса Phonora.",
+      description_en: "Use Directus to add modules, lessons, and exercises.",
+      description_ru: "Используйте Directus, чтобы добавить модули, уроки и упражнения.",
+      hero_headline_en: "Build your Phonora course in Directus.",
+      hero_headline_ru: "Соберите курс Phonora в Directus.",
+      hero_subheadline_en: "Edit the singleton course, then add modules and lessons.",
+      hero_subheadline_ru: "Отредактируйте единственный курс, затем добавьте модули и уроки.",
+    }),
+  });
+
+  return response.data.id ?? null;
+}
+
 async function main() {
   const token = await getAdminToken();
   const current = await directusRequest<{ data: Snapshot }>(token, "/schema/snapshot");
@@ -719,6 +755,9 @@ async function main() {
       { policy: publicPolicyId, action: "read", collection },
     );
   }
+
+  console.log("Ensuring singleton course");
+  await ensureSingletonCourse(token);
 
   console.log("Directus bootstrap complete.");
 }

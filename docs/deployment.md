@@ -15,7 +15,7 @@ Copy `.env.example` and set production values for:
 - `DIRECTUS_ASSETS_BASE_URL`
 - `DIRECTUS_PUBLIC_STATUS`
 - `DIRECTUS_PUBLIC_VISIBILITY`
-- `PHONORA_COURSE_SLUG`
+- `PHONORA_SINGLETON_COURSE_SLUG` (optional; default singleton course slug used by `cms:setup`)
 - `DIRECTUS_ADMIN_EMAIL`
 - `DIRECTUS_ADMIN_PASSWORD`
 - `DIRECTUS_ADMIN_TOKEN` (optional, preferred for automation)

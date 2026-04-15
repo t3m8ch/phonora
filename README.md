@@ -28,6 +28,7 @@ Phonora is a content-driven web app for learning English phonetics, transcriptio
    bun run cms:setup
    bun run cms:seed
    ```
+   `cms:setup` also guarantees that the singleton site course exists in Directus.
 5. Start the web app locally if you are not using the Docker web service:
    ```bash
    bun run dev
@@ -42,7 +43,7 @@ Phonora is a content-driven web app for learning English phonetics, transcriptio
 - `bun run lint` — lint the web app
 - `bun run build` — production build of the web app
 - `bun run verify` — lint + build
-- `bun run cms:setup` — create/update Directus collections, fields, relations, roles, permissions
+- `bun run cms:setup` — create/update Directus collections, fields, relations, roles, permissions, and ensure the singleton site course exists
 - `bun run cms:seed` — import the minimal MVP starter dataset
 
 ## Project structure

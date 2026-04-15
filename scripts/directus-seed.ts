@@ -147,7 +147,7 @@ async function main() {
   const moduleMap: IdMap = new Map();
 
   console.log("Seeding course");
-  const course = await upsertByUnique(token, "courses", "slug", seedData.course.slug, {
+  const coursePayload = {
     status: "published",
     slug: seedData.course.slug,
     ...localizedTextFields("title", seedData.course.title),
@@ -155,6 +155,10 @@ async function main() {
     ...localizedTextFields("description", seedData.course.description),
     ...localizedTextFields("hero_headline", seedData.course.hero_headline),
     ...localizedTextFields("hero_subheadline", seedData.course.hero_subheadline),
+  };
+  const course = await directusRequest<{ data: { id: string } }>(token, "/items/courses", {
+    method: "PATCH",
+    body: JSON.stringify(coursePayload),
   });
   const courseId = String(course.data.id);
 

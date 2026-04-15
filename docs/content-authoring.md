@@ -4,16 +4,17 @@
 
 1. Open Directus Studio.
 2. In your Directus user profile, choose the admin UI language you want to work in (`English` or `Русский`) when available.
-3. Create or update reusable **audio_assets** first.
-4. Create reusable **example_words** and attach audio where needed.
-5. Create the lesson content entity:
+3. Open the singleton **course** record that `cms:setup` creates automatically and edit its bilingual site/course copy.
+4. Create or update reusable **audio_assets** first.
+5. Create reusable **example_words** and attach audio where needed.
+6. Create the lesson content entity:
    - **phonetic_symbols** for single-sound cards
    - **sound_combinations** for diphthongs / combinations
    - **reading_rules** for spelling-to-sound rules
    - **exercises** for practice sets
-6. Create or update **lesson_blocks** to place each lesson inside a module.
-7. Fill in both `*_en` and `*_ru` fields for learner-facing text on every record that will be published.
-8. Set `status = published` and `visibility = visible` for any content that should appear publicly.
+7. Create or update **lesson_blocks** to place each lesson inside a module.
+8. Fill in both `*_en` and `*_ru` fields for learner-facing text on every record that will be published.
+9. Set `status = published` and `visibility = visible` for any content that should appear publicly.
 
 ## Collection overview
 

@@ -20,6 +20,7 @@ const localizedFields = (...fieldNames: string[]) =>
 
 const courseFields = [
   "id",
+  "status",
   "slug",
   ...localizedFields(
     "title",
@@ -214,17 +215,11 @@ const isVisibleLesson = (
   record?.visibility === env.publishedVisibility;
 
 export async function getCourseOverview(locale: Locale): Promise<CourseOverview | null> {
-  const data = await directusRequest<CourseRecord[]>("/items/courses", {
+  const course = await directusRequest<CourseRecord>("/items/courses", {
     fields: courseFields,
-    limit: 1,
-    filter: {
-      status: { _eq: env.publishedStatus },
-      slug: { _eq: env.courseSlug },
-    },
   });
 
-  const course = data?.[0];
-  if (!course) {
+  if (!course || course.status !== env.publishedStatus) {
     return null;
   }
 

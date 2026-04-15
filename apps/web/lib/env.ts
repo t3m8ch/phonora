@@ -11,7 +11,6 @@ export const env = {
   ),
   publishedStatus: process.env.DIRECTUS_PUBLIC_STATUS ?? "published",
   publishedVisibility: process.env.DIRECTUS_PUBLIC_VISIBILITY ?? "visible",
-  courseSlug: process.env.PHONORA_COURSE_SLUG ?? "phonora-mvp",
 };
 
 export const assetUrl = (fileId?: string | null) => {

@@ -165,8 +165,8 @@ async function main() {
   assert(exerciseLessonRu.includes("MVP-тренировка по фонетике"), "Russian exercise page title missing");
   assert(exerciseLessonRu.includes("Проверить ответы"), "Russian exercise controls missing");
 
-  const publicCourse = await publicJson(`/items/courses?filter[slug][_eq]=phonora-mvp`);
-  assert(publicCourse.data.length === 1, "Published course unavailable through public API");
+  const publicCourse = await publicJson(`/items/courses`);
+  assert(publicCourse.data?.status === "published", "Published singleton course unavailable through public API");
 
   console.log("Smoke verification complete.");
 }
