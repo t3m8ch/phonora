@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { getLessonDifficulty } from "@/lib/card-types";
 import { getDictionary, type Locale } from "@/lib/i18n";
 import { lessonPath, modulePath } from "@/lib/routes";
 import type { LessonDetail } from "@/lib/types";
@@ -14,6 +15,13 @@ export function LessonLayout({
   children: React.ReactNode;
 }) {
   const dictionary = getDictionary(locale);
+  const difficulty = getLessonDifficulty(lesson);
+  const difficultyClass =
+    difficulty === "advanced"
+      ? "lessonDifficultyHard"
+      : difficulty === "intermediate"
+        ? "lessonDifficultyMedium"
+        : "lessonDifficultyEasy";
 
   return (
     <div className="stack-xl">
@@ -23,6 +31,9 @@ export function LessonLayout({
             ← {dictionary.lessonLayout.backTo} {lesson.module.title}
           </Link>
           <p className="eyebrow">{dictionary.lessonTypes[lesson.lessonType]}</p>
+          <span className={`contentTypeBadge ${difficultyClass} difficulty-${difficulty}`}>
+            {dictionary.lessonDifficulty[difficulty]}
+          </span>
           <h1>{lesson.title}</h1>
           {lesson.description ? <p className="lead">{lesson.description}</p> : null}
         </div>

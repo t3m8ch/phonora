@@ -113,6 +113,36 @@ a.button {
   font-weight: 700;
 }
 
+.authoringModeToggle {
+  min-height: 34px;
+  padding: 0 12px;
+  border: 1px solid rgba(79, 70, 229, 0.24);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 0.84rem;
+  font-weight: 700;
+  transition:
+    background 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease,
+    transform 160ms ease;
+}
+
+.authoringModeToggle:hover,
+.authoringModeToggle:focus-visible {
+  border-color: rgba(79, 70, 229, 0.5);
+  color: var(--accent-strong);
+  transform: translateY(-1px);
+}
+
+.authoringModeToggle.active {
+  background: rgba(79, 70, 229, 0.1);
+  border-color: rgba(79, 70, 229, 0.42);
+  color: var(--accent-strong);
+}
+
 .pageContainer {
   max-width: 1120px;
   margin: 0 auto;
@@ -234,12 +264,233 @@ h3 {
   color: var(--text-muted);
 }
 
+.progressWidgetLink {
+  display: block;
+}
+
+.progressWidget {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(260px, 0.85fr);
+  gap: 24px;
+  overflow: hidden;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(238, 242, 255, 0.84)),
+    var(--surface);
+}
+
+.progressWidget::before {
+  content: "";
+  position: absolute;
+  inset: auto -12% -55% -12%;
+  height: 80%;
+  background: radial-gradient(circle, rgba(79, 70, 229, 0.14), transparent 68%);
+  pointer-events: none;
+}
+
+.progressWidgetCopy {
+  position: relative;
+  display: grid;
+  gap: 14px;
+  align-content: center;
+  min-width: 0;
+}
+
+.progressWidgetPercent {
+  font-size: clamp(3rem, 8vw, 5.8rem);
+  line-height: 0.9;
+  font-weight: 900;
+}
+
+.progressWidgetStats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.progressWidgetStats span,
+.moduleStatusBadge,
+.contentTypeBadge,
+.moduleVariantBadge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  border-radius: 999px;
+  padding: 0 12px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.contentTypeBadge {
+  align-self: flex-start;
+  border-color: rgba(79, 70, 229, 0.14);
+  background: rgba(79, 70, 229, 0.06);
+  color: var(--accent-strong);
+}
+
+.moduleVariantBadge {
+  align-self: flex-start;
+}
+
+.moduleVariantBadge.theory {
+  border-color: rgba(79, 70, 229, 0.18);
+  background: rgba(79, 70, 229, 0.08);
+  color: var(--accent-strong);
+}
+
+.moduleVariantBadge.practice {
+  border-color: rgba(15, 159, 143, 0.2);
+  background: rgba(15, 159, 143, 0.1);
+  color: var(--success);
+}
+
+.progressWidgetCta {
+  justify-self: flex-start;
+}
+
+.soundWaveProgress {
+  --progress-color: var(--accent);
+  position: relative;
+  min-height: 180px;
+  border-radius: 22px;
+  padding: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(238, 242, 255, 0.5)),
+    rgba(255, 255, 255, 0.44);
+  border: 1px solid rgba(79, 70, 229, 0.12);
+  overflow: hidden;
+}
+
+.soundWaveProgress span {
+  position: relative;
+  z-index: 1;
+  width: 9px;
+  max-height: 96px;
+  border-radius: 999px;
+  transform-origin: center;
+  background: rgba(93, 104, 130, 0.24);
+}
+
+.soundWaveProgress span.active {
+  background: var(--progress-color);
+  box-shadow: 0 0 18px color-mix(in srgb, var(--progress-color), transparent 62%);
+}
+
+.soundWaveFill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  z-index: 0;
+  border-radius: inherit;
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--progress-color), white 78%), transparent),
+    color-mix(in srgb, var(--progress-color), transparent 88%);
+}
+
+.moduleStatusBadge {
+  align-self: flex-start;
+}
+
+.moduleStatusBadge.not_started {
+  background: rgba(93, 104, 130, 0.08);
+}
+
+.moduleStatusBadge.in_progress {
+  border-color: rgba(79, 70, 229, 0.2);
+  background: rgba(79, 70, 229, 0.08);
+  color: var(--accent-strong);
+}
+
+.moduleStatusBadge.completed {
+  border-color: rgba(15, 118, 110, 0.2);
+  background: rgba(15, 118, 110, 0.08);
+  color: var(--success);
+}
+
+.moduleCardKind-practice {
+  border-color: rgba(15, 118, 110, 0.18);
+}
+
+.moduleCardKind-reading_rules {
+  border-color: rgba(79, 70, 229, 0.18);
+}
+
+.moduleCardKind-sound_combinations,
+.moduleCardKind-sound_symbols {
+  border-color: rgba(15, 159, 143, 0.18);
+}
+
+.moduleVariant-theory {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(238, 242, 255, 0.45)),
+    var(--surface);
+}
+
+.moduleVariant-practice {
+  border-color: rgba(15, 159, 143, 0.24);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(15, 159, 143, 0.08)),
+    var(--surface);
+}
+
+.moduleCardTheory {
+  border-color: rgba(79, 70, 229, 0.16);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(238, 242, 255, 0.5)),
+    var(--surface);
+}
+
+.moduleCardPractice {
+  border-color: rgba(15, 159, 143, 0.26);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(15, 159, 143, 0.1)),
+    var(--surface);
+}
+
+.moduleCardTheory .moduleCardFooter,
+.moduleCardPractice .moduleCardFooter {
+  padding-top: 16px;
+}
+
+.moduleCardTheory .moduleCardFooter {
+  border-top: 1px solid rgba(79, 70, 229, 0.12);
+}
+
+.moduleCardPractice .moduleCardFooter {
+  border-top: 1px solid rgba(15, 159, 143, 0.16);
+}
+
+.lessonDifficultyEasy {
+  border-color: rgba(106, 165, 138, 0.24);
+  background: rgba(106, 165, 138, 0.1);
+  color: #426d5a;
+}
+
+.lessonDifficultyMedium {
+  border-color: rgba(79, 70, 229, 0.2);
+  background: rgba(79, 70, 229, 0.08);
+  color: var(--accent-strong);
+}
+
+.lessonDifficultyHard {
+  border-color: rgba(49, 46, 129, 0.28);
+  background: rgba(49, 46, 129, 0.1);
+  color: var(--accent-strong);
+}
+
 .moduleCard,
 .lessonListCard,
 .navCard,
 .exerciseLink,
 .emptyState,
 .exerciseItem,
+.lessonCompletion,
 .lessonCard,
 .lessonHeader {
   display: flex;
@@ -259,6 +510,465 @@ h3 {
   flex-wrap: wrap;
 }
 
+.exerciseSummary {
+  padding: 14px 16px;
+  border: 1px solid rgba(79, 70, 229, 0.12);
+  border-radius: 18px;
+  background: var(--surface-muted);
+  color: var(--text-muted);
+  font-weight: 650;
+}
+
+.exerciseSummary span {
+  overflow-wrap: anywhere;
+}
+
+.statsHero {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.statsGrid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.statMetric {
+  gap: 10px;
+}
+
+.statMetric span {
+  color: var(--text-muted);
+  font-weight: 700;
+}
+
+.statMetric strong {
+  font-size: clamp(1.45rem, 3vw, 2.25rem);
+}
+
+.statsModuleGrid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.statsModuleCard {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.statsModuleFooter,
+.recentAttempt {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.statsModuleFooter span,
+.recentAttempt span {
+  color: var(--text-muted);
+  font-weight: 700;
+}
+
+.statsEmptyState {
+  align-items: flex-start;
+}
+
+.progressTestingCard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  border-color: rgba(185, 28, 28, 0.22);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(185, 28, 28, 0.08)),
+    var(--surface);
+}
+
+.progressTestingCard .eyebrow {
+  color: var(--danger);
+}
+
+.lessonCompletion {
+  align-items: flex-start;
+  border-color: rgba(79, 70, 229, 0.18);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(238, 242, 255, 0.74)),
+    var(--surface);
+}
+
+.lessonCompletion.completed {
+  border-color: rgba(15, 118, 110, 0.2);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(15, 118, 110, 0.08)),
+    var(--surface);
+}
+
+.difficulty-beginner {
+  border-color: rgba(15, 118, 110, 0.2);
+  background: rgba(15, 118, 110, 0.08);
+  color: var(--success);
+}
+
+.difficulty-intermediate {
+  border-color: rgba(15, 159, 143, 0.18);
+  background: rgba(15, 159, 143, 0.08);
+}
+
+.difficulty-advanced {
+  border-color: rgba(79, 70, 229, 0.18);
+  background: rgba(79, 70, 229, 0.08);
+}
+
+.lessonBlockKind-pronunciation,
+.lessonBlockKind-example {
+  background: rgba(15, 159, 143, 0.08);
+}
+
+.lessonBlockKind-mistake {
+  background: rgba(93, 104, 130, 0.08);
+}
+
+.lessonBlockKind-rule,
+.lessonBlockKind-practice_note {
+  background: rgba(79, 70, 229, 0.08);
+}
+
+.lessonBlocks {
+  align-items: stretch;
+}
+
+.lessonBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  position: relative;
+  overflow: hidden;
+}
+
+.lessonBlock::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 5px;
+  background: rgba(79, 70, 229, 0.18);
+}
+
+.lessonBlock > * {
+  position: relative;
+}
+
+.lessonBlockSoundVisual,
+.soundVisualBlock {
+  border-color: rgba(79, 70, 229, 0.18);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(238, 242, 255, 0.72)),
+    var(--surface);
+}
+
+.lessonBlockSoundVisual::before {
+  background: rgba(79, 70, 229, 0.38);
+}
+
+.lessonBlockSoundAudio,
+.soundAudioBlock {
+  border-color: rgba(15, 159, 143, 0.18);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(15, 159, 143, 0.07)),
+    var(--surface);
+}
+
+.lessonBlockSoundAudio::before {
+  background: rgba(15, 159, 143, 0.42);
+}
+
+.lessonBlockExamples {
+  border-color: rgba(106, 165, 138, 0.2);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(106, 165, 138, 0.07)),
+    var(--surface);
+}
+
+.lessonBlockExamples::before {
+  background: rgba(106, 165, 138, 0.4);
+}
+
+.lessonBlockInfo {
+  border-color: rgba(93, 104, 130, 0.18);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(93, 104, 130, 0.06)),
+    var(--surface);
+}
+
+.lessonBlockInfo::before {
+  background: rgba(93, 104, 130, 0.26);
+}
+
+.lessonBlockComparison {
+  border-color: rgba(49, 46, 129, 0.18);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(79, 70, 229, 0.07)),
+    var(--surface);
+}
+
+.lessonBlockComparison::before {
+  background: rgba(49, 46, 129, 0.36);
+}
+
+.lessonBlockMiniCheck {
+  border-color: rgba(15, 159, 143, 0.22);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(15, 159, 143, 0.08)),
+    var(--surface);
+}
+
+.lessonBlockMiniCheck::before {
+  background: rgba(15, 159, 143, 0.48);
+}
+
+.soundAudioMeta {
+  color: var(--accent-strong);
+  font-size: 1.25rem;
+}
+
+.infoBlock.tone-tip {
+  border-color: rgba(15, 159, 143, 0.18);
+  background: rgba(15, 159, 143, 0.06);
+}
+
+.infoBlock.tone-warning {
+  border-color: rgba(151, 121, 32, 0.2);
+  background: rgba(151, 121, 32, 0.07);
+}
+
+.comparisonGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.authoringPanel {
+  border-style: dashed;
+  border-color: rgba(79, 70, 229, 0.32);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(238, 242, 255, 0.84)),
+    var(--surface);
+}
+
+.editableLessonBlock {
+  position: relative;
+}
+
+.authoringEditable,
+.editableLessonBlock.isAuthoring {
+  padding: 10px;
+  border: 1px dashed rgba(79, 70, 229, 0.34);
+  border-radius: 28px;
+  background: rgba(238, 242, 255, 0.42);
+}
+
+.authoringControls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  padding: 8px;
+  border: 1px solid rgba(79, 70, 229, 0.2);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.authoringControlButton {
+  min-height: 32px;
+  padding: 0 10px;
+  border: 1px solid rgba(79, 70, 229, 0.22);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--accent-strong);
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.authoringControlButton:hover:not(:disabled),
+.authoringControlButton:focus-visible:not(:disabled) {
+  border-color: rgba(79, 70, 229, 0.46);
+  background: var(--surface-muted);
+}
+
+.authoringControlButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.authoringDangerButton,
+.authoringControlButton.danger {
+  border-color: rgba(185, 28, 28, 0.24);
+  color: var(--danger);
+}
+
+.authoringToolbar {
+  max-width: 1120px;
+  margin: 16px auto 0;
+  padding: 14px 24px;
+  border: 1px dashed rgba(79, 70, 229, 0.28);
+  border-radius: 22px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(238, 242, 255, 0.72)),
+    var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.authoringToolbarActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.authoringToolbarStatus {
+  margin-right: auto;
+  display: grid;
+  gap: 2px;
+}
+
+.authoringToolbarStatus strong {
+  color: var(--accent-strong);
+}
+
+.authoringToolbarStatus span {
+  color: var(--text-muted);
+  font-size: 0.88rem;
+}
+
+.authoringToolbarPanel {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.authoringDrawerBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: flex;
+  justify-content: flex-end;
+  background: rgba(22, 32, 51, 0.28);
+  backdrop-filter: blur(4px);
+}
+
+.authoringModal,
+.authoringDrawer {
+  width: min(720px, 100%);
+  min-height: 100%;
+  overflow-y: auto;
+  padding: 24px;
+  background: var(--surface);
+  box-shadow: -24px 0 60px rgba(22, 32, 51, 0.18);
+}
+
+.authoringModal {
+  border-left: 1px solid rgba(79, 70, 229, 0.16);
+}
+
+.authoringDrawerHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.authoringTypeGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.authoringTypeButton {
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: white;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-weight: 800;
+  text-align: left;
+}
+
+.authoringTypeButton:hover,
+.authoringTypeButton:focus-visible,
+.authoringTypeButton.active {
+  border-color: rgba(79, 70, 229, 0.42);
+  background: var(--surface-muted);
+  color: var(--accent-strong);
+}
+
+.authoringFormGrid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.authoringWideField {
+  grid-column: 1 / -1;
+}
+
+.authoringDrawerActions {
+  position: sticky;
+  bottom: 0;
+  margin-top: 22px;
+  padding-top: 16px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.72), white 32%);
+}
+
+.authoringPanelHeader,
+.authoringBlock {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.authoringGrid {
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+}
+
+.authoringBlock {
+  flex-direction: column;
+}
+
+.fieldLabel {
+  display: grid;
+  gap: 8px;
+  color: var(--text-muted);
+  font-weight: 700;
+}
+
+.fieldLabel input,
+.fieldLabel select,
+.fieldLabel textarea,
+.exportTextarea {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 12px 14px;
+  background: white;
+  color: var(--text);
+  font: inherit;
+}
+
+.fieldLabel textarea,
+.exportTextarea {
+  resize: vertical;
+  line-height: 1.55;
+}
+
 .button {
   display: inline-flex;
   align-items: center;
@@ -270,6 +980,11 @@ h3 {
   cursor: pointer;
 }
 
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
 .button.primary {
   background: var(--accent);
   color: white;
@@ -278,6 +993,14 @@ h3 {
 .button.secondary {
   border-color: var(--border);
   background: white;
+}
+
+.button.danger {
+  background: var(--danger);
+  color: white;
+  min-height: 52px;
+  padding: 0 22px;
+  font-weight: 800;
 }
 
 .button:hover,
@@ -321,6 +1044,7 @@ h3 {
   padding: 16px;
   border-radius: 20px;
   background: var(--surface-muted);
+  min-width: 0;
 }
 
 .audioElement {
@@ -329,30 +1053,259 @@ h3 {
 
 .optionList {
   display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.exerciseItemHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   gap: 12px;
+  flex-wrap: wrap;
+}
+
+.exerciseTaskCount,
+.exerciseTypeBadge,
+.practiceVariantBadge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  border-radius: 999px;
+  padding: 0 12px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.exerciseIntro {
+  border-color: rgba(79, 70, 229, 0.14);
+}
+
+.exerciseIntroHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.practiceVariantBadge {
+  align-self: flex-start;
+}
+
+.practiceWarmup,
+.practiceVariantBadge.warmup,
+.practiceVariant-warmup {
+  border-color: rgba(106, 165, 138, 0.22);
+}
+
+.practiceWarmup {
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(106, 165, 138, 0.08)),
+    var(--surface);
+}
+
+.practiceVariantBadge.warmup {
+  background: rgba(106, 165, 138, 0.1);
+  color: #426d5a;
+}
+
+.practiceNormal,
+.practiceVariant-normal {
+  border-color: rgba(15, 159, 143, 0.2);
+}
+
+.practiceNormal {
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(15, 159, 143, 0.08)),
+    var(--surface);
+}
+
+.practiceVariantBadge.normal {
+  border-color: rgba(15, 159, 143, 0.2);
+  background: rgba(15, 159, 143, 0.1);
+  color: var(--success);
+}
+
+.practiceChallenge,
+.practiceVariant-challenge {
+  border-color: rgba(79, 70, 229, 0.24);
+}
+
+.practiceChallenge {
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(79, 70, 229, 0.08)),
+    var(--surface);
+}
+
+.practiceVariantBadge.challenge {
+  border-color: rgba(79, 70, 229, 0.24);
+  background: rgba(79, 70, 229, 0.1);
+  color: var(--accent-strong);
+}
+
+.practiceExam,
+.practiceVariant-exam {
+  border-color: rgba(49, 46, 129, 0.3);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(79, 70, 229, 0.08)),
+    var(--surface);
+}
+
+.practiceVariantBadge.exam {
+  border-color: rgba(49, 46, 129, 0.28);
+  background: rgba(49, 46, 129, 0.1);
+  color: var(--accent-strong);
+}
+
+.exerciseTaskCount {
+  background: var(--surface-muted);
+  color: var(--accent-strong);
+}
+
+.exerciseTypeBadge {
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.exercisePrompt {
+  border-top: 1px solid var(--border);
+  padding-top: 18px;
+}
+
+.exercisePrompt h3 {
+  font-size: clamp(1.25rem, 2vw, 1.65rem);
+  line-height: 1.25;
+}
+
+.exerciseInstruction {
+  border-left: 4px solid rgba(79, 70, 229, 0.28);
+  color: var(--text-muted);
+  line-height: 1.6;
+  padding: 8px 0 8px 14px;
+}
+
+.exercisePromptVisual {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.exercisePromptVisual:empty {
+  display: none;
+}
+
+.exercisePromptWord {
+  font-size: 1.35rem;
+}
+
+.exercisePromptTranscription {
+  color: var(--accent-strong);
+  font-size: 1.35rem;
 }
 
 .optionButton {
   display: grid;
-  gap: 8px;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: flex-start;
+  gap: 12px;
   text-align: left;
   width: 100%;
+  min-height: 118px;
   border-radius: 18px;
   border: 1px solid var(--border);
   background: white;
   padding: 16px;
   cursor: pointer;
+  transition:
+    background 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+  overflow-wrap: anywhere;
 }
 
+.optionButton:hover:not(:disabled) {
+  border-color: rgba(79, 70, 229, 0.5);
+  box-shadow: 0 12px 26px rgba(79, 70, 229, 0.1);
+  transform: translateY(-1px);
+}
+
+.optionContent {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+
+.optionStateDot {
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  border-radius: 999px;
+  border: 2px solid var(--border);
+  background: white;
+}
+
+.optionWord {
+  font-size: 1.1rem;
+  font-weight: 650;
+}
+
+.optionButtonSelected,
 .optionButton.selected {
   border-color: var(--accent);
+  background: rgba(79, 70, 229, 0.04);
   box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
+}
+
+.optionButtonSelected .optionStateDot {
+  border-color: var(--accent);
+  box-shadow: inset 0 0 0 4px white;
+  background: var(--accent);
+}
+
+.optionButtonCorrect {
+  border-color: var(--success);
+  background: rgba(15, 118, 110, 0.08);
+  box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.12);
+}
+
+.optionButtonCorrect .optionStateDot,
+.optionButtonMissedCorrect .optionStateDot {
+  border-color: var(--success);
+  background: var(--success);
+}
+
+.optionButtonIncorrect {
+  border-color: var(--danger);
+  background: rgba(185, 28, 28, 0.08);
+  box-shadow: 0 0 0 3px rgba(185, 28, 28, 0.12);
+}
+
+.optionButtonIncorrect .optionStateDot {
+  border-color: var(--danger);
+  background: var(--danger);
+}
+
+.optionButtonMissedCorrect {
+  border-color: var(--success);
+  background: rgba(15, 118, 110, 0.05);
+  border-style: dashed;
+}
+
+.optionButtonDisabled {
+  cursor: not-allowed;
+  transform: none;
 }
 
 .optionHeader {
   font-weight: 700;
 }
 
+.exerciseFeedback,
 .feedback {
   padding: 16px;
   border-radius: 18px;
@@ -368,6 +1321,47 @@ h3 {
   border: 1px solid rgba(185, 28, 28, 0.18);
 }
 
+.exerciseFeedback {
+  display: grid;
+  gap: 8px;
+  line-height: 1.55;
+}
+
+.exerciseFeedback strong {
+  font-size: 1rem;
+}
+
+.exerciseActions + .exerciseFeedback {
+  border-radius: 22px;
+  padding: 20px;
+}
+
+.exerciseResult {
+  border-radius: 22px;
+  padding: 20px;
+}
+
+.exerciseResultStats {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.exerciseResultStats span {
+  min-height: 34px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 12px;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(22, 32, 51, 0.08);
+  font-weight: 800;
+}
+
+.exerciseResult .muted {
+  color: var(--text-muted);
+}
+
 .disabled {
   opacity: 0.6;
 }
@@ -376,6 +1370,14 @@ h3 {
   .hero,
   .twoCols,
   .courseGrid,
+  .progressWidget,
+  .statsGrid,
+  .statsModuleGrid,
+  .authoringGrid,
+  .authoringFormGrid,
+  .authoringTypeGrid,
+  .comparisonGrid,
+  .optionList,
   .lessonNav {
     grid-template-columns: 1fr;
   }
@@ -390,6 +1392,25 @@ h3 {
   .siteHeaderActions {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .authoringControls {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .authoringControlButton {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .authoringToolbarActions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .authoringToolbarStatus {
+    margin-right: 0;
   }
 
   .card {

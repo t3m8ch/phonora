@@ -78,6 +78,103 @@ export type Dictionary = {
     fallbackSummary: string;
     lessons: string;
     openModule: string;
+    statuses: Record<"not_started" | "in_progress" | "completed", string>;
+  };
+  moduleVariants: Record<"theory" | "practice", string>;
+  moduleKinds: Record<string, string>;
+  lessonDifficulty: Record<string, string>;
+  lessonBlockKinds: Record<string, string>;
+  lessonBlockTypes: Record<string, string>;
+  practiceKinds: Record<string, string>;
+  practiceVariants: Record<"warmup" | "normal" | "challenge" | "exam", string>;
+  practiceVariantDescriptions: Record<"warmup" | "normal" | "challenge" | "exam", string>;
+  authoring: {
+    modeLabel: string;
+    enabledStatus: string;
+    localSaveHint: string;
+    panelTitle: string;
+    panelBody: string;
+    enableHint: string;
+    edit: string;
+    chooseBlockType: string;
+    editBlock: string;
+    theoryBlocks: string;
+    practiceBlocks: string;
+    addBlock: string;
+    addBlockBelow: string;
+    save: string;
+    saveBlock: string;
+    cancel: string;
+    updateBlock: string;
+    deleteBlock: string;
+    moveUp: string;
+    moveDown: string;
+    exportJson: string;
+    importJson: string;
+    clearDraft: string;
+    importDraftPlaceholder: string;
+    importDraftError: string;
+    clearDraftConfirm: string;
+    deleteBlockConfirm: string;
+    discardChangesConfirm: string;
+    exportHelp: string;
+    disableMode: string;
+    blockTitle: string;
+    blockBody: string;
+    blockKind: string;
+    titleRu: string;
+    titleEn: string;
+    bodyRu: string;
+    bodyEn: string;
+    symbol: string;
+    transcription: string;
+    options: string;
+    correctOptionIds: string;
+    explanationRu: string;
+    explanationEn: string;
+    audioUrl: string;
+    audioAssetId: string;
+    audioPreviewFile: string;
+    audioPreviewHint: string;
+    variant: string;
+    savedLocally: string;
+    emptyBlocks: string;
+    unknownBlockType: string;
+  };
+  progressWidget: {
+    title: string;
+    completedLessons: string;
+    completedModules: string;
+    openStats: string;
+    soundWave: string;
+  };
+  stats: {
+    title: string;
+    description: string;
+    overallProgress: string;
+    completedLessons: string;
+    completedModules: string;
+    bestPracticeScore: string;
+    attempts: string;
+    lastActivity: string;
+    modules: string;
+    recentResults: string;
+    noRecentResults: string;
+    noScore: string;
+    never: string;
+    openModule: string;
+    resetProgress: string;
+    resetConfirm: string;
+    testingTitle: string;
+    testingBody: string;
+    resetAllProgress: string;
+    emptyTitle: string;
+    emptyBody: string;
+    startLearning: string;
+    status: string;
+    score: string;
+    date: string;
+    statuses: Record<"not_started" | "in_progress" | "completed", string>;
   };
   emptyState: {
     eyebrow: string;
@@ -109,6 +206,13 @@ export type Dictionary = {
     moduleComplete: string;
     minutes: string;
   };
+  lessonCompletion: {
+    reachedEnd: string;
+    body: string;
+    markComplete: string;
+    completed: string;
+    alreadyCompleted: string;
+  };
   lessonTypes: Record<string, string>;
   audio: {
     listen: string;
@@ -131,6 +235,8 @@ export type Dictionary = {
   };
   exercise: {
     practice: string;
+    task: string;
+    of: string;
     items: string;
     passingScore: string;
     linkedExample: string;
@@ -181,6 +287,155 @@ const dictionaries: Record<Locale, Dictionary> = {
       fallbackSummary: "Structured practice with audio, examples, and navigation.",
       lessons: "lessons",
       openModule: "Open module",
+      statuses: {
+        not_started: "Not started",
+        in_progress: "In progress",
+        completed: "Completed",
+      },
+    },
+    moduleVariants: {
+      theory: "Theory",
+      practice: "Practice",
+    },
+    moduleKinds: {
+      sound_symbols: "Sound symbols",
+      sound_combinations: "Sound combinations",
+      reading_rules: "Reading rules",
+      practice: "Practice",
+      mixed: "Mixed module",
+    },
+    lessonDifficulty: {
+      beginner: "Beginner",
+      intermediate: "Intermediate",
+      advanced: "Advanced",
+    },
+    lessonBlockKinds: {
+      concept: "Concept",
+      pronunciation: "Pronunciation",
+      example: "Example",
+      mistake: "Common mistake",
+      rule: "Rule",
+      practice_note: "Practice note",
+    },
+    lessonBlockTypes: {
+      sound_visual: "Sound symbol",
+      sound_audio: "How it sounds",
+      examples: "Examples",
+      info: "Important note",
+      sound_comparison: "Sound comparison",
+      mini_check: "Mini check",
+    },
+    practiceKinds: {
+      listening: "Listening",
+      symbol: "Symbol",
+      word: "Word match",
+      stress: "Stress",
+      rule: "Rule use",
+      contrast: "Sound contrast",
+    },
+    practiceVariants: {
+      warmup: "Warm-up",
+      normal: "Practice",
+      challenge: "Challenge",
+      exam: "Exam mode",
+    },
+    practiceVariantDescriptions: {
+      warmup: "Light tasks to recall sound symbols before deeper practice.",
+      normal: "A steady practice mode for building reliable recognition.",
+      challenge: "Harder contrasts with more similar sounds and fewer hints.",
+      exam: "A final check where the result matters after completion.",
+    },
+    authoring: {
+      modeLabel: "Developer mode",
+      enabledStatus: "Developer mode is enabled",
+      localSaveHint: "Changes are saved locally in this browser",
+      panelTitle: "Developer authoring mode",
+      panelBody: "Local MVP editor for lesson blocks. Drafts are saved only in this browser and can be exported as JSON.",
+      enableHint: "Add ?dev=1 to the lesson URL to enable local authoring mode.",
+      edit: "Edit",
+      chooseBlockType: "Choose block type",
+      editBlock: "Edit block",
+      theoryBlocks: "Theory blocks",
+      practiceBlocks: "Practice cards",
+      addBlock: "Add block",
+      addBlockBelow: "Add block below",
+      save: "Save",
+      saveBlock: "Save block",
+      cancel: "Cancel",
+      updateBlock: "Update block",
+      deleteBlock: "Delete block",
+      moveUp: "Move up",
+      moveDown: "Move down",
+      exportJson: "Export JSON",
+      importJson: "Import JSON",
+      clearDraft: "Clear draft",
+      importDraftPlaceholder: "Paste exported Phonora draft JSON here.",
+      importDraftError: "Could not import this JSON.",
+      clearDraftConfirm: "Clear local authoring draft?",
+      deleteBlockConfirm: "Delete this block?",
+      discardChangesConfirm: "Discard unsaved changes?",
+      exportHelp: "Use this JSON as a handoff draft for Directus content authoring.",
+      disableMode: "Disable mode",
+      blockTitle: "Block title",
+      blockBody: "Block body",
+      blockKind: "Block type",
+      titleRu: "Title RU",
+      titleEn: "Title EN",
+      bodyRu: "Description/body RU",
+      bodyEn: "Description/body EN",
+      symbol: "Symbol",
+      transcription: "Transcription",
+      options: "Options",
+      correctOptionIds: "Correct option IDs",
+      explanationRu: "Explanation RU",
+      explanationEn: "Explanation EN",
+      audioUrl: "Audio URL",
+      audioAssetId: "Audio asset ID",
+      audioPreviewFile: "Preview audio file",
+      audioPreviewHint: "Local file is used for preview only. To store it permanently, upload audio to Directus and use the audio asset.",
+      variant: "Difficulty / variant",
+      savedLocally: "Saved locally",
+      emptyBlocks: "No local blocks for this lesson yet.",
+      unknownBlockType: "Unknown block type",
+    },
+    progressWidget: {
+      title: "Your progress",
+      completedLessons: "completed lessons",
+      completedModules: "completed modules",
+      openStats: "Open stats",
+      soundWave: "Sound wave progress",
+    },
+    stats: {
+      title: "Knowledge stats",
+      description: "Your progress across lessons, practice, and scores.",
+      overallProgress: "Course progress",
+      completedLessons: "Completed lessons",
+      completedModules: "Completed modules",
+      bestPracticeScore: "Best practice score",
+      attempts: "Attempts",
+      lastActivity: "Last activity",
+      modules: "Modules",
+      recentResults: "Recent results",
+      noRecentResults: "No practice attempts yet.",
+      noScore: "No score yet",
+      never: "Never",
+      openModule: "Open module",
+      resetProgress: "Reset progress",
+      resetConfirm: "Reset all local progress for Phonora?",
+      testingTitle: "Progress testing",
+      testingBody: "This button clears local progress in this browser. Use it only for testing.",
+      resetAllProgress: "Reset all progress",
+      emptyTitle: "You have not started learning yet",
+      emptyBody: "Complete a practice lesson to see your knowledge stats here.",
+      startLearning: "Start learning",
+      status: "Status",
+      score: "Score",
+      date: "Date",
+      statuses: {
+        not_started: "Not started",
+        in_progress: "In progress",
+        completed: "Completed",
+      },
     },
     emptyState: {
       eyebrow: "Content unavailable",
@@ -215,6 +470,13 @@ const dictionaries: Record<Locale, Dictionary> = {
       moduleComplete: "Module complete",
       minutes: "min",
     },
+    lessonCompletion: {
+      reachedEnd: "You reached the end of the lesson",
+      body: "If the material is clear, mark the lesson as completed.",
+      markComplete: "Mark lesson as completed",
+      completed: "Lesson completed",
+      alreadyCompleted: "This lesson is already marked as completed",
+    },
     lessonTypes: {
       phonetic_symbol: "phonetic symbol",
       sound_combination: "sound combination",
@@ -223,7 +485,7 @@ const dictionaries: Record<Locale, Dictionary> = {
     },
     audio: {
       listen: "Listen",
-      missing: "Audio will appear here once an audio asset is attached.",
+      missing: "Audio preview will appear here when an audio URL or asset is added.",
     },
     studyCard: {
       howItSounds: "How it sounds",
@@ -242,6 +504,8 @@ const dictionaries: Record<Locale, Dictionary> = {
     },
     exercise: {
       practice: "Practice",
+      task: "Task",
+      of: "of",
       items: "items",
       passingScore: "Passing score",
       linkedExample: "Linked example",
@@ -306,6 +570,155 @@ const dictionaries: Record<Locale, Dictionary> = {
       fallbackSummary: "Структурированная практика с аудио, примерами и навигацией.",
       lessons: "уроков",
       openModule: "Открыть модуль",
+      statuses: {
+        not_started: "Не начат",
+        in_progress: "В процессе",
+        completed: "Завершён",
+      },
+    },
+    moduleVariants: {
+      theory: "Теория",
+      practice: "Практика",
+    },
+    moduleKinds: {
+      sound_symbols: "Символы звуков",
+      sound_combinations: "Сочетания звуков",
+      reading_rules: "Правила чтения",
+      practice: "Практика",
+      mixed: "Смешанный модуль",
+    },
+    lessonDifficulty: {
+      beginner: "Начальный",
+      intermediate: "Средний",
+      advanced: "Продвинутый",
+    },
+    lessonBlockKinds: {
+      concept: "Понятие",
+      pronunciation: "Произношение",
+      example: "Пример",
+      mistake: "Частая ошибка",
+      rule: "Правило",
+      practice_note: "Заметка к практике",
+    },
+    lessonBlockTypes: {
+      sound_visual: "Как выглядит звук",
+      sound_audio: "Как произносится",
+      examples: "Примеры",
+      info: "Важная информация",
+      sound_comparison: "Сравнение звуков",
+      mini_check: "Мини-проверка",
+    },
+    practiceKinds: {
+      listening: "Аудирование",
+      symbol: "Символ",
+      word: "Слово",
+      stress: "Ударение",
+      rule: "Применение правила",
+      contrast: "Контраст звуков",
+    },
+    practiceVariants: {
+      warmup: "Разминка",
+      normal: "Тренировка",
+      challenge: "Сложная тренировка",
+      exam: "Контрольная попытка",
+    },
+    practiceVariantDescriptions: {
+      warmup: "Лёгкие задания, чтобы вспомнить символы перед основной практикой.",
+      normal: "Обычный режим тренировки для устойчивого распознавания.",
+      challenge: "Более сложные контрасты с похожими звуками и меньшим количеством подсказок.",
+      exam: "Итоговая проверка, где результат важен после завершения.",
+    },
+    authoring: {
+      modeLabel: "Режим разработчика",
+      enabledStatus: "Режим разработчика включён",
+      localSaveHint: "Изменения сохраняются локально в этом браузере",
+      panelTitle: "Режим разработчика контента",
+      panelBody: "Локальный MVP-редактор блоков урока. Черновики сохраняются только в этом браузере и экспортируются в JSON.",
+      enableHint: "Добавьте ?dev=1 к URL урока, чтобы включить локальный режим наполнения.",
+      edit: "Редактировать",
+      chooseBlockType: "Выберите тип карточки",
+      editBlock: "Редактировать блок",
+      theoryBlocks: "Теоретические блоки",
+      practiceBlocks: "Практические карточки",
+      addBlock: "Добавить блок",
+      addBlockBelow: "Добавить блок ниже",
+      save: "Сохранить",
+      saveBlock: "Сохранить блок",
+      cancel: "Отмена",
+      updateBlock: "Обновить блок",
+      deleteBlock: "Удалить блок",
+      moveUp: "Вверх",
+      moveDown: "Вниз",
+      exportJson: "Экспорт JSON",
+      importJson: "Импорт JSON",
+      clearDraft: "Очистить черновик",
+      importDraftPlaceholder: "Вставьте экспортированный JSON-черновик Phonora.",
+      importDraftError: "Не удалось импортировать этот JSON.",
+      clearDraftConfirm: "Очистить локальный черновик наполнения?",
+      deleteBlockConfirm: "Удалить этот блок?",
+      discardChangesConfirm: "Закрыть форму и потерять несохранённые изменения?",
+      exportHelp: "Используйте этот JSON как черновик для переноса контента в Directus.",
+      disableMode: "Выключить режим",
+      blockTitle: "Заголовок блока",
+      blockBody: "Текст блока",
+      blockKind: "Тип блока",
+      titleRu: "Заголовок RU",
+      titleEn: "Заголовок EN",
+      bodyRu: "Описание/текст RU",
+      bodyEn: "Описание/текст EN",
+      symbol: "Символ",
+      transcription: "Транскрипция",
+      options: "Варианты",
+      correctOptionIds: "ID правильных вариантов",
+      explanationRu: "Объяснение RU",
+      explanationEn: "Объяснение EN",
+      audioUrl: "Audio URL",
+      audioAssetId: "Audio asset ID",
+      audioPreviewFile: "Аудиофайл для предпросмотра",
+      audioPreviewHint: "Локальный файл используется только для предпросмотра. Для постоянного хранения загрузите аудио в Directus и укажите audio asset.",
+      variant: "Сложность / вариант",
+      savedLocally: "Сохранено локально",
+      emptyBlocks: "Локальных блоков для этого урока пока нет.",
+      unknownBlockType: "Неизвестный тип блока",
+    },
+    progressWidget: {
+      title: "Ваш прогресс",
+      completedLessons: "завершённых уроков",
+      completedModules: "завершённых модулей",
+      openStats: "Открыть статистику",
+      soundWave: "Звуковая волна прогресса",
+    },
+    stats: {
+      title: "Статистика знаний",
+      description: "Ваш прогресс по урокам, практике и результатам.",
+      overallProgress: "Прогресс курса",
+      completedLessons: "Завершённые уроки",
+      completedModules: "Завершённые модули",
+      bestPracticeScore: "Лучший результат практики",
+      attempts: "Попытки",
+      lastActivity: "Последняя активность",
+      modules: "Модули",
+      recentResults: "Последние результаты",
+      noRecentResults: "Попыток практики пока нет.",
+      noScore: "Пока нет результата",
+      never: "Никогда",
+      openModule: "Открыть модуль",
+      resetProgress: "Сбросить прогресс",
+      resetConfirm: "Сбросить весь локальный прогресс Phonora?",
+      testingTitle: "Тестирование прогресса",
+      testingBody: "Эта кнопка очищает локальный прогресс в браузере. Используйте только для проверки.",
+      resetAllProgress: "Сбросить весь прогресс",
+      emptyTitle: "Вы ещё не начали обучение",
+      emptyBody: "Пройдите практический урок, чтобы увидеть статистику знаний.",
+      startLearning: "Начать обучение",
+      status: "Статус",
+      score: "Результат",
+      date: "Дата",
+      statuses: {
+        not_started: "Не начат",
+        in_progress: "В процессе",
+        completed: "Завершён",
+      },
     },
     emptyState: {
       eyebrow: "Контент недоступен",
@@ -340,6 +753,13 @@ const dictionaries: Record<Locale, Dictionary> = {
       moduleComplete: "Модуль завершён",
       minutes: "мин",
     },
+    lessonCompletion: {
+      reachedEnd: "Вы дошли до конца урока",
+      body: "Если материал понятен, отметьте урок как завершённый.",
+      markComplete: "Завершить урок",
+      completed: "Урок завершён",
+      alreadyCompleted: "Этот урок уже отмечен как завершённый",
+    },
     lessonTypes: {
       phonetic_symbol: "фонетический символ",
       sound_combination: "сочетание звуков",
@@ -348,7 +768,7 @@ const dictionaries: Record<Locale, Dictionary> = {
     },
     audio: {
       listen: "Слушать",
-      missing: "Аудио появится здесь, когда будет прикреплён аудиофайл.",
+      missing: "Предпросмотр аудио появится здесь, когда будет добавлен audio URL или asset.",
     },
     studyCard: {
       howItSounds: "Как это звучит",
@@ -367,6 +787,8 @@ const dictionaries: Record<Locale, Dictionary> = {
     },
     exercise: {
       practice: "Практика",
+      task: "Задание",
+      of: "из",
       items: "заданий",
       passingScore: "Проходной балл",
       linkedExample: "Связанный пример",

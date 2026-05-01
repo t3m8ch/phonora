@@ -30,6 +30,11 @@ const courseFields = [
   "modules.lesson_blocks.id",
   "modules.lesson_blocks.status",
   "modules.lesson_blocks.visibility",
+  "modules.lesson_blocks.slug",
+  ...localizedFields("modules.lesson_blocks.title", "modules.lesson_blocks.description"),
+  "modules.lesson_blocks.lesson_type",
+  "modules.lesson_blocks.order",
+  "modules.lesson_blocks.estimated_minutes",
 ].join(",");
 
 const moduleFields = [

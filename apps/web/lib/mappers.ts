@@ -12,6 +12,7 @@ import type {
   ExerciseRecord,
   ExerciseView,
   LessonBlockRecord,
+  LessonBlockView,
   LessonContentView,
   LessonDetail,
   LessonSummary,
@@ -93,6 +94,29 @@ const mapExampleList = (
     .map((record) => mapExampleWord(record, locale))
     .filter((record): record is ExampleWord => Boolean(record));
 
+const localized = (value?: string | null) => ({
+  en: value ?? null,
+  ru: value ?? null,
+});
+
+const mapExamplesBlock = (id: string, examples: ExampleWord[]): LessonBlockView | null =>
+  examples.length
+    ? {
+        id,
+        type: "examples",
+        examples: examples.map((example) => ({
+          id: example.id,
+          word: example.word,
+          transcription: example.transcription,
+          translation: localized(example.translation),
+          audio: example.audio,
+        })),
+      }
+    : null;
+
+const compactBlocks = (blocks: Array<LessonBlockView | null>) =>
+  blocks.filter((block): block is LessonBlockView => Boolean(block));
+
 export const mapModuleSummary = (record: ModuleRecord, locale: Locale): ModuleSummary => ({
   id: record.id,
   slug: record.slug,
@@ -103,6 +127,10 @@ export const mapModuleSummary = (record: ModuleRecord, locale: Locale): ModuleSu
     pickLocalizedText(record as unknown as Record<string, unknown>, "theme_label", locale) ?? null,
   order: record.order,
   lessonCount: record.lesson_blocks?.length ?? 0,
+  lessons: (record.lesson_blocks ?? [])
+    .slice()
+    .sort((left, right) => left.order - right.order)
+    .map((lesson) => mapLessonSummary(lesson, locale)),
 });
 
 export const mapLessonSummary = (
@@ -150,61 +178,182 @@ export const mapModuleDetail = (record: ModuleRecord, locale: Locale): ModuleDet
 const mapStudyCardFromSymbol = (
   record: PhoneticSymbolRecord,
   locale: Locale,
-): StudyCardView => ({
-  kind: "phonetic_symbol",
-  slug: record.slug,
-  title: pickLocalizedText(record as unknown as Record<string, unknown>, "title", locale) ?? "",
-  symbolOrCombination: record.symbol,
-  label:
-    pickLocalizedText(record as unknown as Record<string, unknown>, "sound_type", locale) ?? null,
-  explanation:
-    pickLocalizedText(record as unknown as Record<string, unknown>, "explanation", locale) ?? "",
-  stressNote:
-    pickLocalizedText(record as unknown as Record<string, unknown>, "stress_note", locale) ?? null,
-  commonMistakes:
+): StudyCardView => {
+  const title = pickLocalizedText(record as unknown as Record<string, unknown>, "title", locale) ?? "";
+  const explanation =
+    pickLocalizedText(record as unknown as Record<string, unknown>, "explanation", locale) ?? "";
+  const label =
+    pickLocalizedText(record as unknown as Record<string, unknown>, "sound_type", locale) ?? null;
+  const stressNote =
+    pickLocalizedText(record as unknown as Record<string, unknown>, "stress_note", locale) ?? null;
+  const commonMistakes =
     pickLocalizedText(
       record as unknown as Record<string, unknown>,
       "common_mistakes",
       locale,
-    ) ?? null,
-  comparisonNote:
+    ) ?? null;
+  const comparisonNote =
     pickLocalizedText(
       record as unknown as Record<string, unknown>,
       "comparison_note",
       locale,
-    ) ?? null,
-  audio: mapAudioAsset(record.primary_audio, locale),
-  examples: mapExampleList(record.examples as Array<Record<string, unknown>> | undefined, locale),
-});
+    ) ?? null;
+  const audio = mapAudioAsset(record.primary_audio, locale);
+  const examples = mapExampleList(record.examples as Array<Record<string, unknown>> | undefined, locale);
+
+  return {
+    kind: "phonetic_symbol",
+    slug: record.slug,
+    title,
+    symbolOrCombination: record.symbol,
+    label,
+    explanation,
+    stressNote,
+    commonMistakes,
+    comparisonNote,
+    audio,
+    examples,
+    blocks: compactBlocks([
+      {
+        id: `${record.slug}-visual`,
+        type: "sound_visual",
+        symbol: record.symbol,
+        title: localized(title),
+        description: localized(explanation),
+      },
+      audio
+        ? {
+            id: `${record.slug}-audio`,
+            type: "sound_audio",
+            audio,
+            title: localized(title),
+            description: localized(label ?? explanation),
+            transcript: audio.transcript,
+            symbol: record.symbol,
+          }
+        : null,
+      mapExamplesBlock(`${record.slug}-examples`, examples),
+      stressNote
+        ? {
+            id: `${record.slug}-stress-note`,
+            type: "info",
+            title: localized("Stress note"),
+            body: localized(stressNote),
+            tone: "tip",
+          }
+        : null,
+      commonMistakes
+        ? {
+            id: `${record.slug}-common-mistakes`,
+            type: "info",
+            title: localized("Common mistakes"),
+            body: localized(commonMistakes),
+            tone: "warning",
+          }
+        : null,
+      comparisonNote
+        ? {
+            id: `${record.slug}-comparison`,
+            type: "sound_comparison",
+            leftSymbol: record.symbol,
+            rightSymbol: "",
+            leftExamples: examples.map((example) => example.word).slice(0, 3),
+            rightExamples: [],
+            explanation: localized(comparisonNote),
+          }
+        : null,
+    ]),
+  };
+};
 
 const mapStudyCardFromCombination = (
   record: SoundCombinationRecord,
   locale: Locale,
-): StudyCardView => ({
-  kind: "sound_combination",
-  slug: record.slug,
-  title: pickLocalizedText(record as unknown as Record<string, unknown>, "title", locale) ?? "",
-  symbolOrCombination: record.combination_text,
-  label: null,
-  explanation:
-    pickLocalizedText(record as unknown as Record<string, unknown>, "explanation", locale) ?? "",
-  stressNote:
-    pickLocalizedText(record as unknown as Record<string, unknown>, "stress_note", locale) ?? null,
-  commonMistakes:
+): StudyCardView => {
+  const title = pickLocalizedText(record as unknown as Record<string, unknown>, "title", locale) ?? "";
+  const explanation =
+    pickLocalizedText(record as unknown as Record<string, unknown>, "explanation", locale) ?? "";
+  const stressNote =
+    pickLocalizedText(record as unknown as Record<string, unknown>, "stress_note", locale) ?? null;
+  const commonMistakes =
     pickLocalizedText(
       record as unknown as Record<string, unknown>,
       "common_mistakes",
       locale,
-    ) ?? null,
-  comparisonNote:
+    ) ?? null;
+  const comparisonNote =
     pickLocalizedText(
       record as unknown as Record<string, unknown>,
       "comparison_note",
       locale,
-    ) ?? null,
-  audio: mapAudioAsset(record.primary_audio, locale),
-  examples: mapExampleList(record.examples as Array<Record<string, unknown>> | undefined, locale),
-});
+    ) ?? null;
+  const audio = mapAudioAsset(record.primary_audio, locale);
+  const examples = mapExampleList(record.examples as Array<Record<string, unknown>> | undefined, locale);
+
+  return {
+    kind: "sound_combination",
+    slug: record.slug,
+    title,
+    symbolOrCombination: record.combination_text,
+    label: null,
+    explanation,
+    stressNote,
+    commonMistakes,
+    comparisonNote,
+    audio,
+    examples,
+    blocks: compactBlocks([
+      {
+        id: `${record.slug}-visual`,
+        type: "sound_visual",
+        symbol: record.combination_text,
+        title: localized(title),
+        description: localized(explanation),
+      },
+      audio
+        ? {
+            id: `${record.slug}-audio`,
+            type: "sound_audio",
+            audio,
+            title: localized(title),
+            description: localized(explanation),
+            transcript: audio.transcript,
+            symbol: record.combination_text,
+          }
+        : null,
+      mapExamplesBlock(`${record.slug}-examples`, examples),
+      stressNote
+        ? {
+            id: `${record.slug}-stress-note`,
+            type: "info",
+            title: localized("Stress note"),
+            body: localized(stressNote),
+            tone: "tip",
+          }
+        : null,
+      commonMistakes
+        ? {
+            id: `${record.slug}-common-mistakes`,
+            type: "info",
+            title: localized("Common mistakes"),
+            body: localized(commonMistakes),
+            tone: "warning",
+          }
+        : null,
+      comparisonNote
+        ? {
+            id: `${record.slug}-comparison`,
+            type: "sound_comparison",
+            leftSymbol: record.combination_text,
+            rightSymbol: "",
+            leftExamples: examples.map((example) => example.word).slice(0, 3),
+            rightExamples: [],
+            explanation: localized(comparisonNote),
+          }
+        : null,
+    ]),
+  };
+};
 
 const mapExerciseOption = (
   record: ExerciseOptionRecord,
@@ -291,25 +440,23 @@ export const mapExercise = (record: ExerciseRecord, locale: Locale): ExerciseVie
   };
 };
 
-const mapReadingRule = (record: ReadingRuleRecord, locale: Locale): ReadingRuleView => ({
-  kind: "reading_rule",
-  slug: record.slug,
-  title: pickLocalizedText(record as unknown as Record<string, unknown>, "title", locale) ?? "",
-  ruleStatement:
+const mapReadingRule = (record: ReadingRuleRecord, locale: Locale): ReadingRuleView => {
+  const title = pickLocalizedText(record as unknown as Record<string, unknown>, "title", locale) ?? "";
+  const ruleStatement =
     pickLocalizedText(record as unknown as Record<string, unknown>, "rule_statement", locale) ??
-    "",
-  explanation:
-    pickLocalizedText(record as unknown as Record<string, unknown>, "explanation", locale) ?? "",
-  exceptions:
-    pickLocalizedText(record as unknown as Record<string, unknown>, "exceptions", locale) ?? null,
-  limitations:
+    "";
+  const explanation =
+    pickLocalizedText(record as unknown as Record<string, unknown>, "explanation", locale) ?? "";
+  const exceptions =
+    pickLocalizedText(record as unknown as Record<string, unknown>, "exceptions", locale) ?? null;
+  const limitations =
     pickLocalizedText(record as unknown as Record<string, unknown>, "limitations", locale) ??
-    null,
-  practiceIntro:
+    null;
+  const practiceIntro =
     pickLocalizedText(record as unknown as Record<string, unknown>, "practice_intro", locale) ??
-    null,
-  examples: mapExampleList(record.examples as Array<Record<string, unknown>> | undefined, locale),
-  reinforcementExercises: (record.reinforcement_exercises ?? [])
+    null;
+  const examples = mapExampleList(record.examples as Array<Record<string, unknown>> | undefined, locale);
+  const reinforcementExercises = (record.reinforcement_exercises ?? [])
     .map((entry) => pickJunctionValue<ExerciseRecord>(entry))
     .filter((value): value is ExerciseRecord => Boolean(value))
     .map((exercise) => ({
@@ -319,8 +466,58 @@ const mapReadingRule = (record: ReadingRuleRecord, locale: Locale): ReadingRuleV
       summary:
         pickLocalizedText(exercise as unknown as Record<string, unknown>, "summary", locale) ??
         null,
-    })),
-});
+    }));
+
+  return {
+    kind: "reading_rule",
+    slug: record.slug,
+    title,
+    ruleStatement,
+    explanation,
+    exceptions,
+    limitations,
+    practiceIntro,
+    examples,
+    reinforcementExercises,
+    blocks: compactBlocks([
+      {
+        id: `${record.slug}-rule`,
+        type: "info",
+        title: localized(ruleStatement || title),
+        body: localized(explanation),
+        tone: "neutral",
+      },
+      exceptions
+        ? {
+            id: `${record.slug}-exceptions`,
+            type: "info",
+            title: localized("Exceptions"),
+            body: localized(exceptions),
+            tone: "warning",
+          }
+        : null,
+      limitations
+        ? {
+            id: `${record.slug}-limits`,
+            type: "info",
+            title: localized("Limits"),
+            body: localized(limitations),
+            tone: "tip",
+          }
+        : null,
+      mapExamplesBlock(`${record.slug}-examples`, examples),
+      practiceIntro
+        ? {
+            id: `${record.slug}-practice-note`,
+            type: "info",
+            title: localized("Practice note"),
+            body: localized(practiceIntro),
+            tone: "tip",
+          }
+        : null,
+    ]),
+  };
+};
 
 export const mapLessonContent = (
   lesson: LessonBlockRecord,
@@ -360,6 +557,7 @@ export const mapLessonDetail = (
       pickLocalizedText(lessonRecord as unknown as Record<string, unknown>, "description", locale) ??
       null,
     lessonType: lessonRecord.lesson_type,
+    order: lessonRecord.order,
     estimatedMinutes: lessonRecord.estimated_minutes ?? null,
     module: mapModuleSummary(moduleRecord, locale),
     previousLesson:

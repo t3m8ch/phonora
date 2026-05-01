@@ -3,6 +3,8 @@ import { DEFAULT_LOCALE, isLocale } from "@/lib/i18n";
 
 export const coursePath = (locale: Locale) => `/${locale}`;
 
+export const statsPath = (locale: Locale) => `/${locale}/stats`;
+
 export const modulePath = (locale: Locale, slug: string) => `/${locale}/modules/${slug}`;
 
 export const lessonPath = (locale: Locale, moduleSlug: string, lessonSlug: string) =>

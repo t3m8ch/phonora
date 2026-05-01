@@ -198,6 +198,7 @@ export type ModuleSummary = {
   themeLabel?: string | null;
   order: number;
   lessonCount: number;
+  lessons?: LessonSummary[];
 };
 
 export type CourseOverview = {
@@ -223,6 +224,7 @@ export type StudyCardView = {
   comparisonNote?: string | null;
   audio?: AudioAsset | null;
   examples: ExampleWord[];
+  blocks?: LessonBlockView[];
 };
 
 export type ReadingRuleView = {
@@ -236,6 +238,7 @@ export type ReadingRuleView = {
   practiceIntro?: string | null;
   examples: ExampleWord[];
   reinforcementExercises: Array<Pick<ExerciseView, "slug" | "title" | "summary">>;
+  blocks?: LessonBlockView[];
 };
 
 export type ExerciseOption = {
@@ -246,6 +249,9 @@ export type ExerciseOption = {
   transcription?: string | null;
   symbol?: string | null;
   audio?: AudioAsset | null;
+  audioUrl?: string | null;
+  audioAssetId?: string | null;
+  originalFileName?: string | null;
 };
 
 export type ExerciseItemView = {
@@ -257,6 +263,9 @@ export type ExerciseItemView = {
   promptWord?: string | null;
   promptTranscription?: string | null;
   promptAudio?: AudioAsset | null;
+  promptAudioUrl?: string | null;
+  promptAudioAssetId?: string | null;
+  originalFileName?: string | null;
   linkedExampleWord?: ExampleWord | null;
   options: ExerciseOption[];
   correctOptionIds: string[];
@@ -274,6 +283,86 @@ export type ExerciseView = {
   items: ExerciseItemView[];
 };
 
+type LocalizedValue = {
+  en?: string | null;
+  ru?: string | null;
+};
+
+export type SoundVisualLessonBlock = {
+  id: string;
+  type: "sound_visual";
+  symbol: string;
+  title: LocalizedValue;
+  description: LocalizedValue;
+};
+
+export type SoundAudioLessonBlock = {
+  id: string;
+  type: "sound_audio";
+  audio?: AudioAsset | null;
+  audioUrl?: string | null;
+  audioAssetId?: string | null;
+  originalFileName?: string | null;
+  title: LocalizedValue;
+  description: LocalizedValue;
+  transcript?: string | null;
+  symbol?: string | null;
+};
+
+export type ExamplesLessonBlock = {
+  id: string;
+  type: "examples";
+  title?: LocalizedValue;
+  examples: Array<{
+    id: string;
+    word: string;
+    transcription?: string | null;
+    translation: LocalizedValue;
+    audio?: AudioAsset | null;
+    audioUrl?: string | null;
+    audioAssetId?: string | null;
+    originalFileName?: string | null;
+  }>;
+};
+
+export type InfoLessonBlock = {
+  id: string;
+  type: "info";
+  title: LocalizedValue;
+  body: LocalizedValue;
+  tone: "neutral" | "tip" | "warning";
+};
+
+export type SoundComparisonLessonBlock = {
+  id: string;
+  type: "sound_comparison";
+  leftSymbol: string;
+  rightSymbol: string;
+  leftExamples: string[];
+  rightExamples: string[];
+  explanation: LocalizedValue;
+};
+
+export type MiniCheckLessonBlock = {
+  id: string;
+  type: "mini_check";
+  question: LocalizedValue;
+  options: Array<{
+    id: string;
+    label: LocalizedValue;
+  }>;
+  correctOptionIds: string[];
+  explanation: LocalizedValue;
+};
+
+export type LessonBlockView =
+  | SoundVisualLessonBlock
+  | SoundAudioLessonBlock
+  | ExamplesLessonBlock
+  | InfoLessonBlock
+  | SoundComparisonLessonBlock
+  | MiniCheckLessonBlock;
+
 export type LessonContentView = StudyCardView | ReadingRuleView | ExerciseView;
 
 export type LessonDetail = {
@@ -282,6 +371,7 @@ export type LessonDetail = {
   title: string;
   description?: string | null;
   lessonType: LessonType;
+  order: number;
   estimatedMinutes?: number | null;
   module: ModuleSummary;
   previousLesson?: LessonSummary | null;

@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 
 import { CourseHero } from "@/components/CourseHero";
+import { CourseProgressWidget } from "@/components/CourseProgressWidget";
 import { EmptyState } from "@/components/EmptyState";
 import { ModuleCard } from "@/components/ModuleCard";
 import { getCourseOverview } from "@/lib/content";
@@ -37,6 +38,8 @@ export default async function HomePage({
   return (
     <div className="stack-xl">
       <CourseHero course={course} locale={locale} />
+
+      <CourseProgressWidget course={course} locale={locale} />
 
       <section className="grid courseGrid">
         {course.modules.map((module) => (

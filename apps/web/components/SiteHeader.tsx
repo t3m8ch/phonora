@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 
+import { AuthoringModeToggle } from "@/components/AuthoringModeToggle";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { DEFAULT_LOCALE, getDictionary } from "@/lib/i18n";
 import { coursePath, localeFromPathname } from "@/lib/routes";
@@ -31,6 +32,7 @@ export function SiteHeader() {
           <Link href={coursePath(locale)}>{dictionary.nav.course}</Link>
         </nav>
         <LanguageSwitcher locale={locale} />
+        <AuthoringModeToggle dictionary={dictionary} />
       </div>
     </header>
   );

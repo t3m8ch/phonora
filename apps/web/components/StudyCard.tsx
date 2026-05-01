@@ -28,19 +28,22 @@ export function StudyCard({
 
       <div className="grid twoCols">
         {card.stressNote ? (
-          <article className="subCard">
+          <article className="subCard lessonBlockKind-pronunciation">
+            <span className="contentTypeBadge">{dictionary.lessonBlockKinds.pronunciation}</span>
             <h3>{dictionary.studyCard.stressNote}</h3>
             <p>{card.stressNote}</p>
           </article>
         ) : null}
         {card.commonMistakes ? (
-          <article className="subCard">
+          <article className="subCard lessonBlockKind-mistake">
+            <span className="contentTypeBadge">{dictionary.lessonBlockKinds.mistake}</span>
             <h3>{dictionary.studyCard.commonMistakes}</h3>
             <p>{card.commonMistakes}</p>
           </article>
         ) : null}
         {card.comparisonNote ? (
-          <article className="subCard fullWidth">
+          <article className="subCard fullWidth lessonBlockKind-concept">
+            <span className="contentTypeBadge">{dictionary.lessonBlockKinds.concept}</span>
             <h3>{dictionary.studyCard.compareWithSimilarSounds}</h3>
             <p>{card.comparisonNote}</p>
           </article>
@@ -86,13 +89,15 @@ export function ReadingRuleCard({
 
       <div className="grid twoCols">
         {rule.exceptions ? (
-          <article className="subCard">
+          <article className="subCard lessonBlockKind-rule">
+            <span className="contentTypeBadge">{dictionary.lessonBlockKinds.rule}</span>
             <h3>{dictionary.readingRule.exceptions}</h3>
             <p>{rule.exceptions}</p>
           </article>
         ) : null}
         {rule.limitations ? (
-          <article className="subCard">
+          <article className="subCard lessonBlockKind-concept">
+            <span className="contentTypeBadge">{dictionary.lessonBlockKinds.concept}</span>
             <h3>{dictionary.readingRule.limits}</h3>
             <p>{rule.limitations}</p>
           </article>
